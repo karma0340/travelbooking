@@ -1,0 +1,21 @@
+2024-09-06 18:28:03.299 | INFO     | __main__:dash:72 - Updated sudo_users: 6621610889, target: -1001760486667, volume: 5,bass: 20, pitch: -0.3
+2024-09-06 18:28:04.672 | INFO     | __main__:dash:72 - Updated sudo_users: 6621610889, target: -1001760486667, volume: 5,bass: 20, pitch: -0.3
+2024-09-06 18:28:10.647 | DEBUG    | CHOCOBAR.modules.quply:play_handler:63 - Voice message file ID: AwACAgUAAyEFAASB8shtAAIGy2bbSbpqKDcWCEuxwbL9joR_UT1fAAL5EAACZ5DZVrVUIjW2mr5tHgQ
+2024-09-06 18:28:10.649 | DEBUG    | CHOCOBAR.modules.quply:play_handler:73 - Downloading message: AwACAgUAAyEFAASB8shtAAIGy2bbSbpqKDcWCEuxwbL9joR_UT1fAAL5EAACZ5DZVrVUIjW2mr5tHgQ.ogg
+2024-09-06 18:28:12.410 | DEBUG    | CHOCOBAR.modules.quply:play_handler:76 - Message downloaded: /workspaces/CHOCOAUTO-BOT/downloads/voice_2024-09-06_18-28-10_7411598674981027860.ogg
+2024-09-06 18:28:12.653 | DEBUG    | CHOCOBAR.modules.quply:play_handler:96 - Message processed with bass, volume, and pitch adjusted
+2024-09-06 18:28:12.686 | DEBUG    | CHOCOBAR.modules.quply:play_handler:105 - Added to queue: final_AwACAgUAAyEFAASB8shtAAIGy2bbSbpqKDcWCEuxwbL9joR_UT1fAAL5EAACZ5DZVrVUIjW2mr5tHgQ.ogg
+2024-09-06 18:28:12.687 | DEBUG    | CHOCOBAR.modules.quply:play_from_queue:127 - Joining group call in chat: -1001760486667
+2024-09-06 18:28:30.084 | DEBUG    | CHOCOBAR.modules.quply:play_handler:67 - Audio message file ID: CQACAgUAAyEFAASB8shtAAIGzGbbSc3fXnbWYSwN-jtsFMsYsXngAAIeDwAC-hiQVA9qb7zZWy4iHgQ, Format: ogg
+2024-09-06 18:28:30.085 | DEBUG    | CHOCOBAR.modules.quply:play_handler:73 - Downloading message: CQACAgUAAyEFAASB8shtAAIGzGbbSc3fXnbWYSwN-jtsFMsYsXngAAIeDwAC-hiQVA9qb7zZWy4iHgQ.ogg
+2024-09-06 18:28:32.257 | DEBUG    | CHOCOBAR.modules.quply:play_handler:76 - Message downloaded: /workspaces/CHOCOAUTO-BOT/downloads/record.ogg
+2024-09-06 18:28:33.570 | DEBUG    | CHOCOBAR.modules.quply:play_handler:96 - Message processed with bass, volume, and pitch adjusted
+2024-09-06 18:28:33.603 | DEBUG    | CHOCOBAR.modules.quply:play_handler:105 - Added to queue: final_CQACAgUAAyEFAASB8shtAAIGzGbbSc3fXnbWYSwN-jtsFMsYsXngAAIeDwAC-hiQVA9qb7zZWy4iHgQ.ogg
+2024-09-06 18:28:33.605 | DEBUG    | CHOCOBAR.modules.quply:play_from_queue:127 - Joining group call in chat: -1001760486667
+2024-09-06 18:28:55.154 | INFO     | __main__:dash:72 - Updated sudo_users: 6621610889, target: -1001760486667, volume: 5,bass: 2, pitch: -0.3
+2024-09-06 18:29:35.595 | DEBUG    | CHOCOBAR.modules.quply:play_handler:63 - Voice message file ID: AwACAgUAAyEFAASB8shtAAIG1WbbSg8VrAluyViTE7vtaZTCQZ8xAAL7EAACZ5DZVuxrx3PiJGYLHgQ
+2024-09-06 18:29:35.597 | DEBUG    | CHOCOBAR.modules.quply:play_handler:73 - Downloading message: AwACAgUAAyEFAASB8shtAAIG1WbbSg8VrAluyViTE7vtaZTCQZ8xAAL7EAACZ5DZVuxrx3PiJGYLHgQ.ogg
+2024-09-06 18:29:37.262 | DEBUG    | CHOCOBAR.modules.quply:play_handler:76 - Message downloaded: /workspaces/CHOCOAUTO-BOT/downloads/voice_2024-09-06_18-29-35_7411599040053248048.ogg
+2024-09-06 18:29:37.505 | DEBUG    | CHOCOBAR.modules.quply:play_handler:96 - Message processed with bass, volume, and pitch adjusted
+2024-09-06 18:29:37.553 | DEBUG    | CHOCOBAR.modules.quply:play_handler:105 - Added to queue: final_AwACAgUAAyEFAASB8shtAAIG1WbbSg8VrAluyViTE7vtaZTCQZ8xAAL7EAACZ5DZVuxrx3PiJGYLHgQ.ogg
+2024-09-06 18:29:37.554 | DEBUG    | CHOCOBAR.modules.quply:play_from_queue:127 - Joining group call in chat: -1001760486667

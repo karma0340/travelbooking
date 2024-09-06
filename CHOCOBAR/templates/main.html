@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ᴄʜᴏᴄᴏᴀᴜᴛᴏ ʙᴏᴛ ᴀᴅᴍɪɴ ᴘᴀɴᴇʟ</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+        body {
+            background: #121212;
+            color: #ffffff;
+        }
+
+        .navbar {
+            background-color: #1f1f1f;
+        }
+
+        .navbar-brand {
+            color: #ffffff;
+        }
+
+        .navbar-brand:hover {
+            color: #c0c0c0;
+        }
+
+        .card {
+            background-color: #1e1e1e;
+            border: none;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px; /* Added margin-top here */
+        }
+
+        .card h1 {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .form-group label {
+            color: #b0b0b0;
+        }
+
+        .form-control {
+            background-color: #2a2a2a;
+            color: #ffffff;
+            border: 1px solid #555555;
+        }
+
+        .form-control:focus {
+            background-color: #2a2a2a;
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background-color: #6200ee;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #3700b3;
+        }
+
+        .mt-4 h3 {
+            color: #ffffff;
+        }
+
+        .mt-4 p {
+            color: #c0c0c0;
+        }
+    </style>
+</head>
+
+<body onload="loadLogs()"> 
+
+    <div class="container mt-5">
+        <nav class="navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="https://clipart-library.com/images_k/illuminati-transparent-png/illuminati-transparent-png-21.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
+                    ᴄʜᴏᴄᴏᴀᴜᴛᴏ ʙᴏᴛ
+                </a>
+            </div>
+        </nav>
+
+        <!-- Add margin-top directly to the card container for spacing -->
+        <div class="row d-flex justify-content-center mt-4"> 
+            <div class="col-md-6">
+                <div class="card px-5 py-5" id="form1">
+                    <h1>ᴅᴀꜱʜʙᴏᴀʀᴅ</h1>
+                    <form method="post">
+                        <div class="form-group">
+                            <label for="sudo_users">ꜱᴜᴅᴏ ᴜꜱᴇʀꜱ: (comma separated):</label>
+                            <input type="text" class="form-control" id="sudo_users" name="sudo_users" value="{{ sudo_users }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="target">ᴛᴀʀɢᴇᴛ:</label>
+                            <input type="text" class="form-control" id="target" name="target" value="{{ target }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="volume">ᴠᴏʟᴜᴍᴇ:</label>
+                            <input type="text" class="form-control" id="volume" name="volume" value="{{ volume }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="bass">ʙᴀꜱꜱ:</label>
+                            <input type="text" class="form-control" id="bass" name="bass" value="{{ bass }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="pitch">pitch:</label>
+                            <input type="text" class="form-control" id="pitch" name="pitch" value="{{ pitch }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">ꜱᴜʙᴍɪᴛ</button>
+                    </form>
+                    <div class="mt-4">
+                        <h3>ꜱᴛᴏʀᴇᴅ ᴠᴀʀɪᴀʙʟᴇꜱ:</h3>
+                        <p><strong>ꜱᴜᴅᴏ ᴜꜱᴇʀꜱ:</strong> {{ sudo_users }}</p>
+                        <p><strong>ᴛᴀʀɢᴇᴛ:</strong> {{ target }}</p>
+                        <p><strong>ᴠᴏʟᴜᴍᴇ:</strong> {{ volume }}</p>
+                        <p><strong>ʙᴀꜱꜱ:</strong> {{ bass }}</p>
+                        <p><strong>PITCH:</strong> {{ pitch }}</p>
+                    </div>
+                </div>
+                <h1>Live Logs</h1>
+                <button onclick="loadMoreLogs()">Load More Logs</button>
+                <div id="logs" style="height: 400px; overflow-y: scroll; border: 1px solid #000;">
+                </div>
+                
+                <script>
+                    function loadLogs() {
+                        fetch("/logs")
+                            .then(response => response.text())
+                            .then(data => {
+                                document.getElementById("logs").innerText = data;  // Display the initial logs
+                            });
+                    }
+                
+                    function loadMoreLogs() {
+                        fetch("/logs")
+                            .then(response => response.text())
+                            .then(data => {
+                                document.getElementById("logs").innerText += data;  // Append the new logs
+                            });
+                    }
+                
+                    window.onload = loadLogs;  // Load logs on page load
+                </script>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

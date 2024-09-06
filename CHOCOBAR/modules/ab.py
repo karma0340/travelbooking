@@ -1,0 +1,81 @@
+# import os
+# from pyrogram import filters, Client
+# from pyrogram.types import Message
+# from pytgcalls.types import MediaStream
+# from pytgcalls.exceptions import AlreadyJoinedError
+# from loguru import logger
+# from pydub import AudioSegment
+# from pydub.effects import low_pass_filter
+# from CHOCOBAR import bot, pytg, check_and_get_vars
+# # from config import OWNER_ID
+# from config_vars import get_variable  # Import the get_variable function
+
+# # Initialize Pyrogram client
+
+# # Set up loguru configuration
+# logger.add("debug.log", format="{time} {level} {message}", level="DEBUG", rotation="1 MB")
+
+# @bot.on_message(~filters.private & (filters.voice | filters.audio))
+# async def play_handler(client: Client, message: Message):
+#     chat_id, sudo_user_list = await check_and_get_vars(message)
+#     if not chat_id:
+#         return
+#     try:
+#         if message.voice:
+#             file_id = message.voice.file_id
+#             file_format = "ogg"
+#             logger.debug(f"Voice message file ID: {file_id}")
+#         elif message.audio:
+#             file_id = message.audio.file_id
+#             file_format = message.audio.mime_type.split('/')[-1]
+#             logger.debug(f"Audio message file ID: {file_id}, Format: {file_format}")
+#         else:
+#             raise ValueError("No voice or audio message found in the incoming message")
+
+#         file_path = f"{file_id}.{file_format}"
+
+#         logger.debug(f"Downloading message: {file_path}")
+#         try:
+#             downloaded_file_path = await client.download_media(message)
+#             logger.debug(f"Message downloaded: {downloaded_file_path}")
+#         except Exception as e:
+#             logger.error(f"Failed to download message: {e}")
+#             await message.reply_text(f"Error downloading message: {e}")
+#             return
+
+#         try:
+#             audio = AudioSegment.from_file(downloaded_file_path)
+#             increased_volume_audio = audio + 90
+#             filtered_audio = low_pass_filter(increased_volume_audio, 9000)
+#             filtered_audio.export(file_path, format="ogg")
+
+#             logger.debug("Message filtered and volume increased")
+#         except Exception as e:
+#             logger.error(f"Failed to process message: {e}")
+#             await message.reply_text(f"Error processing message: {e}")
+#             return
+
+#         try:
+#             logger.debug(f"Joining group call in chat: {chat_id}")
+#             await pytg.play(
+#                 chat_id,
+#                 MediaStream(
+#                     file_path,
+#                 ),
+#             )
+#         except AlreadyJoinedError:
+#             logger.warning(f"Already joined error in chat: {chat_id}, leaving and rejoining")
+#             await pytg.leave_call(chat_id=chat_id)
+#             await pytg.play(
+#                 chat_id,
+#                 MediaStream(
+#                     file_path,
+#                 ),
+#             )
+#         except Exception as e:
+#             logger.error(f"Exception occurred: {e}")
+#             await message.reply_text(f"Error: {e}")
+
+#     except Exception as e:
+#         logger.error(f"Unexpected error: {e}")
+#         await message.reply_text(f"Unexpected error: {e}")
