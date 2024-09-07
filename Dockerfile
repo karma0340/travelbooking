@@ -7,26 +7,22 @@ WORKDIR /app
 # Copy the requirements file into the container
 COPY requirements.txt ./
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Update package lists and install dependencies
+# Install apt-utils and system dependencies
 RUN apt-get update && \
     apt-get install -y \
+    apt-utils \
     ffmpeg \
     espeak \
-    tor \
     && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the current directory contents into the container at /app
 COPY . .
 
-# Expose Tor port (9050 for SOCKS proxy, 9051 for control port)
-EXPOSE 9050
-EXPOSE 9051
+# Expose the necessary port
+EXPOSE 5000
 
-# Create a Tor configuration file
-RUN echo "SocksPort 0.0.0.0:9050\nControlPort 9051\n" > /etc/tor/torrc
-
-# Run Tor and your application
-CMD ["sh", "-c", "tor & python3 main.py"]
+# Run only the main.py file
+CMD ["python3", "main.py"]
