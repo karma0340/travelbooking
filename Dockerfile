@@ -18,7 +18,7 @@ RUN apt-get update && \
 # Install Python packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the current directory contents into the container at /app
+# Copy the current directory contents inhto the container at /app
 COPY . .
 
 # Expose the necessary portlbbs
