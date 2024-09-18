@@ -1,5 +1,4 @@
 import os
-import sqlite3
 import asyncio
 from pyrogram import filters, Client
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
@@ -11,20 +10,18 @@ from pydub import AudioSegment
 from pydub.effects import low_pass_filter
 from pydub.playback import play
 import subprocess
+from pymongo import MongoClient
 from CHOCOBAR import bot, pytg, check_and_get_vars, get_variable
 from pytgcalls.media_devices import MediaDevices
-
+from config import DATABASE_URI
 # Initialize Pyrogram client
 # Set up loguru configuration
 logger.add("log.txt", format="{time} {level} {message}", level="DEBUG", rotation="1 MB")
 
-# Database setup
-db_connection = sqlite3.connect('memory.db')
-db_cursor = db_connection.cursor()
-db_cursor.execute('''CREATE TABLE IF NOT EXISTS queue (
-                        chat_id INTEGER,
-                        file_path TEXT
-                    )''')
+# MongoDB setup
+mongo_client = MongoClient(DATABASE_URI)
+db = mongo_client['audio_queue_db']
+queue_collection = db['queue']
 
 # Event to signal that an audio file is being played
 playing_event = asyncio.Event()
@@ -100,8 +97,7 @@ async def play_handler(client: Client, message: Message):
             return
 
         # Add file path to database queue
-        db_cursor.execute("INSERT INTO queue (chat_id, file_path) VALUES (?, ?)", (chat_id, final_file_path))
-        db_connection.commit()
+        queue_collection.insert_one({'chat_id': chat_id, 'file_path': final_file_path})
         logger.debug(f"Added to queue: {final_file_path}")
 
         # If no other audio is being played, start playing immediately
@@ -118,11 +114,10 @@ async def play_from_queue():
     while True:
         if stop_event.is_set():
             break
-        db_cursor.execute("SELECT chat_id, file_path FROM queue ORDER BY ROWID LIMIT 1")
-        row = db_cursor.fetchone()
-        if row is None:
+        item = queue_collection.find_one_and_delete({}, sort=[('_id', 1)])
+        if item is None:
             break
-        chat_id, file_path = row
+        chat_id, file_path = item['chat_id'], item['file_path']
         try:
             logger.debug(f"Joining group call in chat: {chat_id}")
             await pytg.play(chat_id)
@@ -133,9 +128,6 @@ async def play_from_queue():
             # Wait until the audio finishes playing
             await asyncio.sleep(AudioSegment.from_file(file_path).duration_seconds)
 
-            # Remove played item from the queue
-            db_cursor.execute("DELETE FROM queue WHERE chat_id = ? AND file_path = ?", (chat_id, file_path))
-            db_connection.commit()
         except AlreadyJoinedError:
             logger.warning(f"Already joined error in chat: {chat_id}, leaving and rejoining")
             await pytg.leave_call(chat_id)  # Leave the call
@@ -165,16 +157,15 @@ async def play_from_queue():
 @bot.on_message(filters.command("queue"))
 async def queue_handler(client: Client, message: Message):
     chat_id = message.chat.id
-    db_cursor.execute("SELECT file_path FROM queue WHERE chat_id = ?", (chat_id,))
-    rows = db_cursor.fetchall()
+    items = queue_collection.find({'chat_id': chat_id})
     
-    if not rows:
+    if items.count() == 0:
         await message.reply_text("The queue is empty.")
         return
     
     buttons = [
-        [InlineKeyboardButton(f"Delete {row[0]}", callback_data=f"delete_{row[0]}")]
-        for row in rows
+        [InlineKeyboardButton(f"Delete {item['file_path']}", callback_data=f"delete_{item['file_path']}")]
+        for item in items
     ]
     
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -185,8 +176,7 @@ async def delete_callback_handler(client: Client, callback_query: CallbackQuery)
     file_path = callback_query.data.split("_", 1)[1]
     chat_id = callback_query.message.chat.id
     
-    db_cursor.execute("DELETE FROM queue WHERE chat_id = ? AND file_path = ?", (chat_id, file_path))
-    db_connection.commit()
+    queue_collection.delete_one({'chat_id': chat_id, 'file_path': file_path})
     
     await callback_query.message.edit_text(f"Deleted {file_path} from queue")
     await callback_query.answer()
@@ -196,8 +186,8 @@ async def stop_handler(client: Client, message: Message):
     chat_id, sudo_user_list = await check_and_get_vars(message)
     if not chat_id:
         return 
-    db_cursor.execute("DELETE FROM queue WHERE chat_id = ?", (chat_id,))
-    db_connection.commit()
+
+    queue_collection.delete_many({'chat_id': chat_id})
     
     stop_event.set()  # Signal to stop playback
 
@@ -210,7 +200,7 @@ async def clear_handler(client: Client, message: Message):
     if not chat_id:
         return 
 
-    db_cursor.execute("DELETE FROM queue")
-    db_connection.commit()
+    queue_collection.delete_many({})
     
     await message.reply_text("Cleared all data from the queue.")
+    
