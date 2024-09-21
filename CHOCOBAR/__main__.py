@@ -120,12 +120,17 @@ async def initiate_bot():
         print(f"LOADING {all_module} ...")
     print("Started")
     await idle()
-
+async def write_to_file():
+    while True:
+        with open("hello.txt", "w") as f:
+            f.write("abc")
+        await asyncio.sleep(10)
 def mai():
     # Run Flask in a separate thread
     flask_thread = threading.Thread(target=run_flask)
     flask_thread.start()
-    
+    loop.create_task(initiate_bot())
+    loop.create_task(write_to_file())
     # Start the bot
     loop.run_until_complete(initiate_bot())
     
