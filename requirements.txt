@@ -1,5 +1,5 @@
-pyrofork==2.3.29 
-ntgcalls==1.2.2b1
+pyrofork
+ntgcalls
 py-tgcalls==2.0.2
 requests
 gTTS
