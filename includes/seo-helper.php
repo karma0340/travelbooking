@@ -29,11 +29,16 @@ function generateSEODescription($content, $maxLength = 160) {
  */
 function generateSEOKeywords($content) {
     $keywords = [
-        'travel in peace', 'himachal pradesh', 'shimla tours', 'manali tours',
-        'dharamshala tours', 'vehicle rental', 'taxi service', 'travel agency',
-        'himachal tourism', 'kullu manali', 'spiti valley', 'kinnaur',
-        'lahaul spiti', 'himachal travel packages', 'shimla taxi service',
-        'manali taxi', 'dharamshala taxi', 'himachal tour packages'
+        'travel in peace', 'himachal pradesh tour packages 2024', 'best himachal tour packages 2025', 
+        'taxi service shimla', 'shimla taxi booking', 'cab service shimla', 'taxi near me shimla',
+        'shimla to chandigarh taxi', 'shimla to manali taxi', 'outstation taxi shimla',
+        'local taxi shimla', 'airport taxi shimla', 'shimla airport transfer',
+        'shimla manali tour package', 'spiti valley tour package', 'dharamshala tour packages',
+        'dalhousie tour package', 'kinnaur spiti tour', 'himachal honeymoon packages',
+        'himachal family packages', 'trekking in himachal pradesh', 'adventure tourism himachal',
+        'car rental shimla', 'luxury car hire shimla', 'innova rental shimla',
+        'tempo traveller shimla', 'one way taxi shimla', 'affordable taxi shimla',
+        'reliable taxi shimla', 'himachal tourism packages', 'kullu manali tour'
     ];
     
     // Add page-specific keywords
@@ -42,12 +47,13 @@ function generateSEOKeywords($content) {
         $additionalKeywords = [];
         
         // Extract potential keywords from content
-        $locations = ['shimla', 'manali', 'dharamshala', 'kullu', 'spiti', 'kinnaur', 'lahaul'];
+        $locations = ['shimla', 'manali', 'dharamshala', 'kullu', 'spiti', 'kinnaur', 'lahaul', 'dalhousie', 'kasauli'];
         foreach ($locations as $location) {
             if (strpos($content, $location) !== false) {
-                $additionalKeywords[] = $location . ' tours';
-                $additionalKeywords[] = $location . ' taxi';
-                $additionalKeywords[] = $location . ' travel';
+                $additionalKeywords[] = $location . ' tour packages 2025';
+                $additionalKeywords[] = $location . ' taxi service';
+                $additionalKeywords[] = 'best travel agency in ' . $location;
+                $additionalKeywords[] = 'taxi near me in ' . $location;
             }
         }
         

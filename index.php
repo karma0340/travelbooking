@@ -21,7 +21,7 @@ require_once 'includes/seo-helper.php';
 // SEO Optimization
 $pageTitle = "Home - Travel In Peace | Himachal Pradesh Tours & Vehicles";
 $pageDescription = "Discover Himachal's beauty with Travel In Peace - Premium tours, vehicle rentals, and personalized travel experiences in Shimla, Manali, Dharamshala, and more.";
-$pageKeywords = generateSEOKeywords("shimla trip, himachal tour, taxi service shimla, car rental shimla, manali tour package, dharamshala tour, spiti valley tour, himachal taxi service, travel agency shimla, himachal pradesh tourism");
+$pageKeywords = generateSEOKeywords("best himachal tour packages 2025, shimla taxi service contact number, taxi near me shimla, car rental shimla with driver, shimla manali luxury tour 2024, spiti valley adventure packages, dharamshala dalhousie tour, himachal honeymoon trip 2025");
 
 // Set security headers
 try {

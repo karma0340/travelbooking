@@ -21,7 +21,7 @@ require_once 'includes/seo-helper.php';
 // SEO Optimization
 $pageTitle = "Vehicles - Travel In Peace | Himachal Taxi & Car Rental";
 $pageDescription = "Browse our fleet of well-maintained vehicles for comfortable travel across Himachal Pradesh.";
-$pageKeywords = generateSEOKeywords("taxi service shimla, car rental shimla, himachal taxi service, shimla manali taxi, taxi service manali, car rental manali, taxi service dharamshala, vehicle rental himachal, taxi booking shimla");
+$pageKeywords = generateSEOKeywords("taxi service near me, shimla taxi booking, car rental in shimla with driver, innova crysta rental shimla, tempo traveller hire shimla, shimla to chandigarh taxi rates, local taxi shimla, affordable cab service himachal");
 
 // Set security headers
 try {

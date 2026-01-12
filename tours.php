@@ -20,7 +20,7 @@ require_once 'includes/seo-helper.php';
 // SEO Optimization
 $pageTitle = "Tours - Travel In Peace | Exclusive Himachal Packages";
 $pageDescription = "Explore our exclusive Himachal tour packages including Shimla, Manali, Spiti Valley with customized itineraries for families, couples, and adventure seekers.";
-$pageKeywords = generateSEOKeywords("himachal tour package, shimla manali tour, spiti valley tour, adventure tours himachal, family holiday packages, honeymoon tours shimla manali");
+$pageKeywords = generateSEOKeywords("himachal tour packages 2024-2025, shimla manali family tour, spiti valley road trip, adventure tourism himachal, budget himachal packages, himachal honeymoon packages 2025, shimla to manali taxi service");
 
 // Set security headers
 try {
