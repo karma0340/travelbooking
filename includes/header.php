@@ -1,10 +1,8 @@
 <?php
-require_once __DIR__ . '/analytics.php';
 require_once __DIR__ . '/seo-helper.php';
 
 // Get current page for tracking
 $currentPage = basename($_SERVER['SCRIPT_NAME']);
-trackPageView($currentPage);
 
 // Generate SEO data if not already set
 $pageTitle = $pageTitle ?? 'Travel In Peace - Experience Himachal\'s Beauty';
@@ -18,7 +16,7 @@ $structuredData = $structuredData ?? generateStructuredData($pageTitle, $pageDes
 <html lang="en" data-theme="light" prefix="og: http://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#4F46E5">
     <title><?php echo htmlspecialchars($pageTitle); ?></title>
     <meta name="description" content="<?php echo htmlspecialchars($pageDescription); ?>">
@@ -43,6 +41,13 @@ $structuredData = $structuredData ?? generateStructuredData($pageTitle, $pageDes
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://<?php echo htmlspecialchars($_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>">
+    
+    <!-- JSON-LD Structured Data -->
+    <?php if (!empty($structuredData)): ?>
+    <script type="application/ld+json">
+    <?php echo $structuredData; ?>
+    </script>
+    <?php endif; ?>
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">

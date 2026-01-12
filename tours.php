@@ -43,11 +43,8 @@ if (isset($_GET['location']) && !empty($_GET['location'])) {
     $filters['location'] = $_GET['location'];
 }
 $tours = getTours(null, $filters);
+// Generate CSRF token for forms
 $csrfToken = generateCSRFToken();
-
-// Cache headers
-header('Cache-Control: public, max-age=31536000');
-header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 31536000));
 
 include 'includes/header.php';
 ?>
@@ -107,7 +104,7 @@ include 'includes/header.php';
             <div class="col-md-4" data-aos="fade-up">
                 <div class="card border-0 shadow-sm p-4 h-100 review-card">
                     <div class="d-flex align-items-center mb-3">
-                        <img src="https://ui-avatars.com/api/?name=Priya+S&background=random" class="rounded-circle me-3" width="50" height="50" alt="Avatar">
+                        <img src="https://ui-avatars.com/api/?name=Priya+S&background=random" class="rounded-circle me-3" width="50" height="50" alt="Priya Sharma reviewer">
                         <div>
                             <h6 class="mb-0 fw-bold text-dark">Priya Sharma</h6>
                             <div class="small text-warning">
@@ -122,7 +119,7 @@ include 'includes/header.php';
              <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="card border-0 shadow-sm p-4 h-100 review-card">
                     <div class="d-flex align-items-center mb-3">
-                        <img src="https://ui-avatars.com/api/?name=Rahul+V&background=random" class="rounded-circle me-3" width="50" height="50" alt="Avatar">
+                        <img src="https://ui-avatars.com/api/?name=Rahul+V&background=random" class="rounded-circle me-3" width="50" height="50" alt="Rahul Verma reviewer">
                         <div>
                             <h6 class="mb-0 fw-bold text-dark">Rahul Verma</h6>
                             <div class="small text-warning">
@@ -137,7 +134,7 @@ include 'includes/header.php';
              <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="card border-0 shadow-sm p-4 h-100 review-card">
                     <div class="d-flex align-items-center mb-3">
-                        <img src="https://ui-avatars.com/api/?name=Anjali+P&background=random" class="rounded-circle me-3" width="50" height="50" alt="Avatar">
+                        <img src="https://ui-avatars.com/api/?name=Anjali+P&background=random" class="rounded-circle me-3" width="50" height="50" alt="Anjali Patel reviewer">
                         <div>
                             <h6 class="mb-0 fw-bold text-dark">Anjali Patel</h6>
                             <div class="small text-warning">

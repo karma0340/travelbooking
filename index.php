@@ -67,10 +67,6 @@ $defaultVehicleImages = [
 // Generate CSRF token for forms
 $csrfToken = generateCSRFToken();
 
-// Set browser caching headers
-header('Cache-Control: public, max-age=31536000'); // 1 year for static content
-header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 31536000));
-
 // Include header after all processing is done
 include 'includes/header.php';
 ?>
@@ -319,7 +315,7 @@ include 'includes/header.php';
                         <p class="testimonial-text">"Our trip to Shimla was unforgettable. The tour was well-organized and the guide was very knowledgeable. Highly recommend!"</p>
                         <div class="d-flex align-items-center mt-3">
                             <div class="testimonial-avatar">
-                                <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Testimonial Avatar" class="rounded-circle">
+                                <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Priya Sharma - Happy Traveler with Travel In Peace" class="rounded-circle">
                             </div>
                             <div class="ms-3">
                                 <h6 class="mb-0">Priya Sharma</h6>
@@ -338,10 +334,10 @@ include 'includes/header.php';
                             <i class="fas fa-star text-warning"></i>
                             <i class="fas fa-star text-warning"></i>
                         </div>
-                        <p class="testimonial-text">"The Spiti Valley trek was a life-changing experience. The guides were excellent and the arrangements were perfect. Will definitely book with Shimla Air Lines again!"</p>
+                        <p class="testimonial-text">"The Spiti Valley trek was a life-changing experience. The guides were excellent and the arrangements were perfect. Will definitely book with Travel In Peace again!"</p>
                         <div class="d-flex align-items-center mt-3">
                             <div class="testimonial-avatar">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Testimonial Avatar" class="rounded-circle">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Rahul Verma - Adventure Tour Review" class="rounded-circle">
                             </div>
                             <div class="ms-3">
                                 <h6 class="mb-0">Rahul Verma</h6>
@@ -363,7 +359,7 @@ include 'includes/header.php';
                         <p class="testimonial-text">"We booked the Innova Crysta for our family trip to Manali. The vehicle was in excellent condition and the driver was very professional and friendly."</p>
                         <div class="d-flex align-items-center mt-3">
                             <div class="testimonial-avatar">
-                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Testimonial Avatar" class="rounded-circle">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Anita Gupta - Family Tour Feedback" class="rounded-circle">
                             </div>
                             <div class="ms-3">
                                 <h6 class="mb-0">Anita Gupta</h6>
@@ -440,7 +436,7 @@ include 'includes/header.php';
                 </div>
 <!-- Replace the empty about-3d div with this code -->
 <div class="col-lg-6" data-aos="fade-left">    <div id="about-3d" class="about-3d-wrapper">
-        <img src="images/new.jpg" alt="About Section" class="about-video shadow-lg rounded-4" style="width: 100%; height: 100%; object-fit: cover;">
+        <img src="images/new.jpg" alt="Scenic Himachal landscape explored with Travel In Peace" class="about-video shadow-lg rounded-4" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
 </div>
             </div>

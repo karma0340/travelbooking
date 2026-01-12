@@ -48,10 +48,6 @@ if (empty($vehicles)) {
 // Generate CSRF token for forms
 $csrfToken = generateCSRFToken();
 
-// Set browser caching headers
-header('Cache-Control: public, max-age=31536000');
-header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 31536000));
-
 include 'includes/header.php';
 ?>
 

@@ -74,21 +74,21 @@
 
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
     <?php if ($currentPage !== 'weather.php'): ?>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
     <?php endif; ?>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="js/responsive-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js" defer></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+    <script src="js/responsive-helper.js" defer></script>
     <?php if ($currentPage !== 'weather.php'): ?>
-    <script src="js/weather-service.js"></script>
-    <script src="js/three-scene.js"></script>
+    <script src="js/weather-service.js" defer></script>
+    <script src="js/three-scene.js" defer></script>
     <?php endif; ?>
-    <script src="js/animations.js"></script>
-    <script src="js/theme-switcher.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/animations.js" defer></script>
+    <script src="js/theme-switcher.js" defer></script>
+    <script src="js/main.js" defer></script>
     <?php if (isset($extraScripts)) echo $extraScripts; ?>
 </body>
 </html>
