@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Himachal Psy Techno Logo Concepts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-cyan: #00ffff;
+            --neon-purple: #bd00ff;
+            --acid-green: #ccff00;
+            --dark-bg: #050510;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: var(--dark-bg);
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(189, 0, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 40%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+            gap: 4rem;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .concept-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4rem;
+        }
+
+        /* ROUNDED BADGE BASE */
+        .logo-badge {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(5px);
+        }
+
+        .logo-badge:hover {
+            transform: scale(1.05);
+        }
+
+        /* CONCEPT 1: NEON PEAKS (Cyan/Pink) */
+        .concept-1 {
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2), inset 0 0 20px rgba(255, 0, 255, 0.2);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .concept-1 .mountains {
+            font-size: 4rem;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--neon-cyan);
+            filter: drop-shadow(0 0 5px var(--neon-cyan));
+            margin-bottom: -10px;
+            z-index: 1;
+        }
+
+        .concept-1 .car {
+            font-size: 2.5rem;
+            color: var(--neon-pink);
+            z-index: 2;
+            filter: drop-shadow(0 0 8px var(--neon-pink));
+            transform: translateY(-10px);
+        }
+
+        .concept-1 .text-curve {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rotate-slow 20s linear infinite;
+        }
+
+        /* Simulating curved text with absolute positioning for demo */
+        .concept-1 .brand-text {
+            position: absolute;
+            bottom: 30px;
+            font-family: 'Orbitron';
+            font-weight: 900;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            color: white;
+            text-shadow: 0 0 5px var(--neon-purple);
+            text-align: center;
+            width: 100%;
+        }
+
+        /* CONCEPT 2: PSYCHEDELIC MANDALA (Purple/Green) */
+        .concept-2 {
+            border: 4px double var(--neon-purple);
+            box-shadow: 0 0 30px rgba(189, 0, 255, 0.3);
+            overflow: hidden;
+        }
+
+        .concept-2::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--neon-purple), transparent);
+            animation: spin 4s linear infinite;
+            opacity: 0.1;
+        }
+
+        .concept-2 .scene {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .concept-2 .mountain-layer {
+            font-size: 5rem;
+            color: var(--dark-bg);
+            text-shadow: 0 -2px 5px var(--acid-green);
+        }
+
+        .concept-2 .car-layer {
+            font-size: 2rem;
+            color: white;
+            margin-top: -20px;
+            filter: drop-shadow(0 0 10px white);
+        }
+
+        .concept-2 .text-ring {
+            position: absolute;
+            top: 10px;
+            font-family: 'Exo 2';
+            font-weight: 800;
+            color: var(--acid-green);
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            width: 100%;
+            text-align: center;
+            text-shadow: 0 0 5px var(--acid-green);
+        }
+
+        /* CONCEPT 3: TECHNO BADGE (Blue/White) */
+        .concept-3 {
+            border-radius: 40px;
+            /* Squircle */
+            border: 2px solid white;
+            box-shadow: 0 0 15px white, inset 0 0 15px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, rgba(5, 10, 50, 0.8), rgba(0, 0, 0, 0.9));
+        }
+
+        .concept-3 .inner-ring {
+            border: 1px dashed var(--neon-cyan);
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .concept-3 .mount-icon {
+            font-size: 3.5rem;
+            background: linear-gradient(to bottom, white, var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .concept-3 .car-icon {
+            font-size: 1.8rem;
+            color: white;
+            margin-top: -15px;
+            transform: scaleX(-1);
+            /* flip car */
+        }
+
+        .concept-3 .label {
+            margin-top: 15px;
+            font-family: 'Orbitron';
+            font-size: 0.9rem;
+            color: var(--neon-cyan);
+            letter-spacing: 1px;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Himachal Psy Techno Concepts</h1>
+
+    <div class="concept-container">
+
+        <!-- CONCEPT 1 -->
+        <div class="logo-badge concept-1">
+            <i class="fas fa-mountain mountains"></i>
+            <i class="fas fa-car-side car"></i>
+            <div class="brand-text">TRAVEL IN PEACE</div>
+        </div>
+
+        <!-- CONCEPT 2 -->
+        <div class="logo-badge concept-2">
+            <div class="text-ring">Travel In Peace</div>
+            <div class="scene">
+                <i class="fas fa-mountain mountain-layer"></i>
+                <div class="car-layer"><i class="fas fa-car"></i></div>
+            </div>
+        </div>
+
+        <!-- CONCEPT 3 -->
+        <div class="logo-badge concept-3">
+            <div class="inner-ring">
+                <i class="fas fa-mountain mount-icon"></i>
+                <i class="fas fa-shuttle-van car-icon"></i> <!-- Van for travel vibe -->
+            </div>
+            <div class="label">TRAVEL IN PEACE</div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

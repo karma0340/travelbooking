@@ -1,0 +1,266 @@
+/* =========================================
+   RESPONSIVE FIXES & MOBILE OPTIMIZATIONS
+   ========================================= */
+
+/* 1. Hero Section - Ensure consistent appearance across all screens */
+/* Ensure text is above the overlay */
+.hero-content h1,
+.hero-content h2,
+.hero-content .lead,
+.video-text-container {
+    position: relative;
+    z-index: 10;
+}
+
+.hero-content h1,
+.video-text {
+    color: #ffffff !important;
+}
+
+.hero-content .lead,
+.video-text.subtitle {
+    color: #f3f4f6 !important;
+}
+
+/* Fix Hero Buttons Interactivity */
+.hero-section .btn {
+    position: relative;
+    z-index: 20 !important;
+    pointer-events: auto;
+}
+
+.hero-section .d-flex {
+    position: relative;
+    z-index: 20;
+}
+
+
+/* 2. Hero Stats Responsive */
+.hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 0;
+    flex: 1 1 30%;
+}
+
+/* 3. Mobile Menu Dropdown Fix */
+@media (max-width: 991.98px) {
+
+    /* Navbar Collapse Container */
+    .navbar-collapse {
+        position: fixed;
+        top: 80px;
+        /* Adjust based on your header height */
+        left: 0;
+        right: 0;
+        bottom: auto !important;
+        /* Do NOT force full screen */
+        max-height: 85vh;
+        /* Scrollable if too long */
+        overflow-y: auto;
+
+        background: rgba(255, 255, 255, 0.99) !important;
+        backdrop-filter: blur(10px);
+        padding: 1.5rem;
+        border-radius: 0 0 1.5rem 1.5rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+
+        /* Visibility transitions */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        display: block !important;
+        /* Override bootstrap collapse display none */
+    }
+
+    .navbar-collapse.show,
+    .navbar-collapse.collapsing {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    [data-theme="dark"] .navbar-collapse {
+        background: rgba(17, 24, 39, 0.99) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Nav Items */
+    .navbar-nav {
+        flex-direction: column !important;
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+
+    .nav-item {
+        width: 100%;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    [data-theme="dark"] .nav-item {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-link {
+        color: #1f2937 !important;
+        padding: 0.75rem 0 !important;
+        font-size: 1.1rem !important;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        /* keep vertical center */
+        justify-content: flex-start;
+        /* Keep text and arrow together */
+        width: 100%;
+    }
+
+    [data-theme="dark"] .nav-link {
+        color: #f3f4f6 !important;
+    }
+
+    /* Dropdown Menus */
+    /* Ensure the sub-dropdowns are part of the flow */
+    .dropdown-menu {
+        position: static !important;
+        float: none;
+        width: 100%;
+        margin-top: 0;
+        background-color: rgba(0, 0, 0, 0.03);
+        border: none;
+        box-shadow: none;
+        padding: 0;
+
+        display: block;
+        /* Always in DOM */
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+    }
+
+    .dropdown-menu.show {
+        max-height: 1000px;
+        /* Allow expansion */
+        padding: 0.5rem 0 1rem 1rem;
+        /* Indent content */
+        margin-top: 0.5rem;
+    }
+
+    .dropdown-item {
+        padding: 0.75rem 1rem;
+        color: #4b5563 !important;
+    }
+
+    [data-theme="dark"] .dropdown-item {
+        color: #d1d5db !important;
+    }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+        background-color: transparent;
+        color: var(--primary-color) !important;
+    }
+
+    /* Ensure toggler works - Fix for the 'dash' issue */
+    .dropdown-toggle::after {
+        display: inline-block !important;
+        margin-left: 0.5em !important;
+        vertical-align: middle !important;
+        content: "" !important;
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent;
+        transition: transform 0.2s;
+        opacity: 1 !important;
+        width: auto !important;
+        height: auto !important;
+    }
+
+    .dropdown-toggle.show::after {
+        transform: rotate(180deg);
+    }
+
+    /* Better styling for the mobile buttons area */
+    .nav-buttons-mobile {
+        padding-top: 1.5rem !important;
+        padding-bottom: 1rem !important;
+        margin-top: 1rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    [data-theme="dark"] .nav-buttons-mobile {
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-buttons-mobile .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        border-radius: 50px;
+        /* Pillow shape for modern look */
+    }
+}
+
+/* 4. Form Input Readability */
+/* Force light background for better contrast even in themes unless specialized */
+.form-control,
+.form-select {
+    background-color: #ffffff !important;
+    color: #1f2937 !important;
+    border: 1px solid #d1d5db;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: #ffffff !important;
+    color: #1f2937 !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.25) !important;
+}
+
+.form-control::placeholder {
+    color: #6b7280;
+    opacity: 0.8;
+}
+
+/* 5. Mobile Buttons (Hero Section) */
+@media (max-width: 576px) {
+    .d-flex.justify-content-center.gap-3.flex-wrap.mb-5 {
+        flex-direction: column;
+        width: 100%;
+        gap: 1rem !important;
+    }
+
+    .d-flex.justify-content-center.gap-3.flex-wrap.mb-5 .btn {
+        width: 100%;
+        margin: 0;
+    }
+
+    /* Adjust hero text size for mobile */
+    .video-text {
+        font-size: 2rem !important;
+    }
+
+    .video-text.subtitle {
+        font-size: 1.2rem !important;
+    }
+}

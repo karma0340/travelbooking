@@ -1,0 +1,32 @@
+<?php
+// Load configuration
+$config = include 'includes/config.php';
+$baseUrl = $config['site_url'];
+header('Content-Type: text/plain');
+?>
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: <?php echo $baseUrl; ?>/sitemap.xml
+
+# Block common non-content files
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /api/
+Disallow: /css/
+Disallow: /js/
+Disallow: /images/
+Disallow: /*.php$
+Disallow: /*.json$
+
+# Allow specific PHP files that are pages
+Allow: /index.php
+Allow: /about.php
+Allow: /tours.php
+Allow: /vehicles.php
+Allow: /book.php
+Allow: /contact.php
+
+# Crawl-delay (optional)
+Crawl-delay: 1

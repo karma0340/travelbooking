@@ -1,0 +1,70 @@
+# Logs
+logs/
+*.log
+error_log
+debug.log
+
+# Backups and temporary files
+*.bak
+*.backup
+baclup.txt
+bak.txt
+work.txt
+log.txt
+*.tmp
+*.temp
+
+# Archives
+debug.zip
+*.zip
+
+# Database files (keep schema, ignore data)
+*.db
+!schema.sql
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Node modules (if any)
+node_modules/
+
+# Composer (if any)
+vendor/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Fix files and experiments
+*-fix
+*-fix.txt
+*.orig
+
+# Vercel
+.vercel
+.vercel/
+
+# Local configuration backups
+includes/config.local.php
+database_backup.sql

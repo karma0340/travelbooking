@@ -1,0 +1,44 @@
+# Vercel ignore patterns
+.git/
+.gitignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.env.local
+.env.*.local
+
+# XAMPP specific
+.htaccess
+
+# Logs
+logs/
+*.log
+
+# Development files
+phpinfo.php
+db-test.php
+db-update.php
+check-mysql.php
+verify_password.php
+optimize-images.php
+clear-cache.php
+
+# Installation files
+install/
+
+# Local configuration
+includes/db-secure.php
+
+# Python files (not needed for PHP deployment)
+requirements.txt
+*.py
+
+# Documentation
+README.md
+LICENSE
+live.txt

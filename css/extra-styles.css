@@ -1,0 +1,215 @@
+/* Additional styles for extended functionality */
+
+/* Form highlight animation */
+@keyframes highlightField {
+    0%, 100% {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.1);
+    }
+    50% {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.4);
+    }
+}
+
+.highlight-field {
+    animation: highlightField 1.5s ease;
+}
+
+/* Tour details page styles */
+.tour-hero {
+    height: 50vh;
+    min-height: 400px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.tour-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5));
+}
+
+.tour-hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.tour-hero h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.tour-detail-section {
+    padding: 80px 0;
+}
+
+.tour-detail-card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.tour-detail-nav {
+    position: sticky;
+    top: 76px;
+    background-color: var(--bg-light);
+    z-index: 10;
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.tour-detail-nav .nav-link {
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin: 0 5px;
+}
+
+.tour-detail-nav .nav-link.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.tour-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.gallery-item {
+    height: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: scale(1.03);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Vehicle booking styles */
+.vehicle-booking-card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vehicle-booking-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.vehicle-booking-card .card-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 20px;
+}
+
+.vehicle-features-list {
+    list-style: none;
+    padding: 0;
+}
+
+.vehicle-features-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+}
+
+.vehicle-features-list li:last-child {
+    border-bottom: none;
+}
+
+.vehicle-features-list i {
+    color: var(--primary-color);
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Loading state styling */
+.loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.loading-spinner {
+    color: var(--primary-color);
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Price calculator */
+.price-calculator {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin: 30px 0;
+}
+
+.price-calculator-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 20px;
+}
+
+.price-calculator-body {
+    padding: 20px;
+}
+
+.price-breakdown {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.price-total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}

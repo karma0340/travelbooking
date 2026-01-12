@@ -1,6 +1,6 @@
 pyrofork==2.3.29 
-ntgcalls==1.2.2
-py-tgcalls==2.0.2
+ntgcalls
+py-tgcalls==2.1.1
 requests
 gTTS
 httpx
@@ -11,9 +11,10 @@ tgcrypto
 loguru
 python-dotenv
 flask
-requests-tor
-youtube-search
+opuslib
 Flask
 Flask-Session
 flask_socketio
 aiosqlite
+websockets
+numpy
