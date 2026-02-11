@@ -70,39 +70,89 @@ function generateStructuredData($pageTitle, $pageDescription, $currentPage = '')
     $config = include 'config.php';
     $baseUrl = $config['site_url'];
     
+    // Base Schema for the Organization
     $structuredData = [
         "@context" => "https://schema.org",
         "@type" => "TravelAgency",
         "name" => "Travel In Peace",
+        "alternateName" => "Travel In Peace Shimla",
         "description" => $pageDescription,
         "url" => $baseUrl,
         "logo" => $baseUrl . "/images/logo.png",
         "image" => $baseUrl . "/images/logo.png",
-        "telephone" => "+91 7559775470",
+        "telephone" => "+91 8627873362",
         "email" => "travelinpeace605@gmail.com",
         "address" => [
             "@type" => "PostalAddress",
+            "streetAddress" => "Shimla", // Add specific street address if available
             "addressLocality" => "Shimla",
             "addressRegion" => "Himachal Pradesh",
-            "addressCountry" => "India"
+            "postalCode" => "171001",
+            "addressCountry" => "IN"
+        ],
+        "geo" => [
+            "@type" => "GeoCoordinates",
+            "latitude" => "31.1048",
+            "longitude" => "77.1734"
+        ],
+        "areaServed" => [
+            "Shimla",
+            "Manali",
+            "Dharamshala",
+            "Dalhousie",
+            "Spiti Valley",
+            "Kinnaur"
         ],
         "sameAs" => [
-            "https://www.instagram.com/travelinpeace605",
-            "https://www.facebook.com/travelinpeace",
-            "https://twitter.com/travelinpeace"
+            "https://www.instagram.com/travelinpeace_/",
+            "https://www.facebook.com/travelinpeace605"
         ],
-        "priceRange" => "$$",
-        "openingHours" => "Mo-Su 00:00-23:59",
-        "serviceType" => "Tour Package Booking, Vehicle Rental, Travel Services"
+        "priceRange" => "₹₹",
+        "openingHoursSpecification" => [
+            [
+                "@type" => "OpeningHoursSpecification",
+                "dayOfWeek" => ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                "opens" => "00:00",
+                "closes" => "23:59"
+            ]
+        ]
     ];
     
-    // Add page-specific structured data
-    if ($currentPage === 'vehicles') {
-        $structuredData["@type"] = "LocalBusiness";
-        $structuredData["serviceType"] = "Vehicle Rental, Taxi Service";
-    } elseif ($currentPage === 'tours') {
-        $structuredData["@type"] = "TouristTrip";
-        $structuredData["serviceType"] = "Tour Packages, Travel Services";
+    // Page-Specific Schema Overrides
+    if ($currentPage === 'vehicles.php' || strpos($pageTitle, 'Car') !== false) {
+        // Add specific TaxiService/AutoRental schema
+        $structuredData["@type"] = ["TravelAgency", "TaxiService", "AutoRental"];
+        $structuredData["serviceType"] = "Car Rental, Taxi Service, Outstation Cabs, Sightseeing Taxi";
+        $structuredData["hasOfferCatalog"] = [
+            "@type" => "OfferCatalog",
+            "name" => "Taxi Services",
+            "itemListElement" => [
+                [
+                    "@type" => "Offer",
+                    "itemOffered" => [
+                        "@type" => "Service",
+                        "name" => "Shimla Local Sightseeing Taxi"
+                    ]
+                ],
+                [
+                    "@type" => "Offer",
+                    "itemOffered" => [
+                        "@type" => "Service",
+                        "name" => "Shimla to Manali Taxi"
+                    ]
+                ],
+                [
+                    "@type" => "Offer",
+                    "itemOffered" => [
+                        "@type" => "Service",
+                        "name" => "Shimla to Chandigarh Taxi"
+                    ]
+                ]
+            ]
+        ];
+    } elseif ($currentPage === 'tours.php' || strpos($pageTitle, 'Tour') !== false) {
+        $structuredData["@type"] = ["TravelAgency"];
+        $structuredData["serviceType"] = "Holiday Packages, Honeymoon Packages, Adventure Tours";
     }
     
     return json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
@@ -160,7 +210,7 @@ function generateTwitterCardTags($pageTitle, $pageDescription, $imageUrl = null)
         'twitter:title' => $pageTitle,
         'twitter:description' => $pageDescription,
         'twitter:image' => $imageUrl ?: $baseUrl . '/images/logo.png',
-        'twitter:site' => '@travelinpeace'
+        'twitter:site' => '@travelinpeace_'
     ];
 }
 

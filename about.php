@@ -12,6 +12,14 @@ $csrfToken = $_SESSION['csrf_token'];
 $pageTitle = "About Us - Travel In Peace | Himachal Travel Experts";
 $pageDescription = "Learn about Travel In Peace - Himachal's premier travel service provider offering tours, vehicles, and personalized experiences since 2020.";
 $pageKeywords = generateSEOKeywords("about travel in peace, himachal travel agency, shimla tour operator, manali travel contact, travel agency phone, email contact, travel in peace story, himachal tourism company");
+require_once 'includes/security.php';
+
+// Set security headers
+try {
+    setSecurityHeaders();
+} catch (Exception $e) {
+    error_log("Error: " . $e->getMessage());
+}
 
 include 'includes/header.php';
 ?>
@@ -102,6 +110,39 @@ include 'includes/header.php';
     </div>
 </section>
 
+<!-- Team Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="text-primary fw-bold text-uppercase letter-spacing-1">Our Team</span>
+            <h2 class="display-5 fw-bold">Meet Our Leader</h2>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-xl-5">
+                <div class="card border-0 shadow-lg team-card text-center p-5" data-aos="zoom-in">
+                    <div class="team-avatar mb-4 mx-auto" style="width: 150px; height: 150px;">
+                        <div class="avatar-circle rounded-circle p-1 bg-gradient-primary w-100 h-100">
+                            <img src="images/nikhil_tyagi.jpg" alt="Founder" class="rounded-circle w-100 h-100 object-fit-cover bg-white">
+                        </div>
+                    </div>
+                    <h3 class="h3 fw-bold mb-1">Nikhil Tyagi</h3>
+                    <p class="text-primary fw-semibold mb-3">Founder & CEO</p>
+                    <p class="text-muted mb-4">
+                        With over 7 years of experience in tourism, Nikhil leads our team with passion and innovation, 
+                        ensuring every journey becomes an unforgettable memory for our clients.
+                    </p>
+                    <div class="d-flex gap-3 justify-content-center">
+                        <a href="https://www.facebook.com/travelinpeace605" target="_blank" class="btn btn-outline-primary btn-sm rounded-circle" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://wa.me/918627873362?text=Hello,%20I%20would%20like%20to%20connect%20with%20Mr.%20Nikhil%20Tyagi" target="_blank" class="btn btn-outline-success btn-sm rounded-circle" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/travelinpeace_/" target="_blank" class="btn btn-outline-danger btn-sm rounded-circle" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Values Section -->
 <section class="py-5 bg-light">
     <div class="container">
@@ -163,39 +204,6 @@ include 'includes/header.php';
     </div>
 </section>
 
-<!-- Team Section -->
-<section class="py-5">
-    <div class="container">
-        <div class="text-center mb-5" data-aos="fade-up">
-            <span class="text-primary fw-bold text-uppercase letter-spacing-1">Our Team</span>
-            <h2 class="display-5 fw-bold">Meet Our Leader</h2>
-        </div>
-        
-        <div class="row justify-content-center">
-            <div class="col-lg-6 col-xl-5">
-                <div class="card border-0 shadow-lg team-card text-center p-5" data-aos="zoom-in">
-                    <div class="team-avatar mb-4 mx-auto" style="width: 150px; height: 150px;">
-                        <div class="avatar-circle rounded-circle p-1 bg-gradient-primary w-100 h-100">
-                            <img src="images/nikhil_tyagi.jpg" alt="Founder" class="rounded-circle w-100 h-100 object-fit-cover bg-white">
-                        </div>
-                    </div>
-                    <h3 class="h3 fw-bold mb-1">Nikhil Tyagi</h3>
-                    <p class="text-primary fw-semibold mb-3">Founder & CEO</p>
-                    <p class="text-muted mb-4">
-                        With over 20 years of experience in tourism, Nikhil leads our team with passion and innovation, 
-                        ensuring every journey becomes an unforgettable memory for our clients.
-                    </p>
-                    <div class="d-flex gap-3 justify-content-center">
-                        <a href="#" class="btn btn-outline-primary btn-sm rounded-circle" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="btn btn-outline-success btn-sm rounded-circle" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#" class="btn btn-outline-danger btn-sm rounded-circle" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- Stats Banner -->
 <section class="py-5 cta-section mt-5 mx-3 rounded-4" data-aos="fade-up">
     <div class="container">
@@ -205,7 +213,9 @@ include 'includes/header.php';
                 <p class="lead mb-4 text-white-50">Join thousands of satisfied travelers who have discovered the magic of the Himalayas.</p>
                 <div class="d-flex flex-wrap gap-3 justify-content-center">
                     <a href="tours.php" class="btn btn-light btn-lg px-5 rounded-pill shadow-sm fw-bold text-primary">Explore Tours</a>
-                    <a href="contact.php#contact-form-section" class="btn btn-outline-light btn-lg px-5 rounded-pill fw-bold">Contact Us</a>
+                    <a href="https://wa.me/918627873362?text=I%20am%20interested%20in%20starting%20my%20journey" target="_blank" class="btn btn-outline-light btn-lg px-5 rounded-pill fw-bold">
+                        <i class="fab fa-whatsapp me-2"></i>Contact Us
+                    </a>
                 </div>
             </div>
         </div>
@@ -213,7 +223,7 @@ include 'includes/header.php';
 </section>
 
 <!-- Footer -->
-<?php include 'includes/footer.php'; ?>
-
-<!-- External Scripts -->
-<script src="js/video-mask.js"></script>
+<?php
+$extraScripts = '<script src="js/video-mask.js"></script>';
+include 'includes/footer.php';
+?>

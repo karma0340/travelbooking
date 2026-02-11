@@ -8,7 +8,7 @@ $vehicle = [
     'description' => '',
     'seats' => 4,
     'bags' => 2,
-    'price_per_day' => 1500,
+    'price_per_day' => 0,
     'image' => '',
     'features' => ['AC', 'Music System'],
     'active' => 1
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'description' => $_POST['description'] ?? '',
         'seats' => (int)($_POST['seats'] ?? 4),
         'bags' => (int)($_POST['bags'] ?? 2),
-        'price_per_day' => (float)($_POST['price_per_day'] ?? 1500),
+        'price_per_day' => (float)($_POST['price_per_day'] ?? 0),
         'image' => $_POST['image'] ?? '',
         'features' => explode(',', $_POST['features'] ?? 'AC,Music System'),
         'active' => isset($_POST['active']) ? 1 : 0
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'description' => '',
                 'seats' => 4,
                 'bags' => 2,
-                'price_per_day' => 1500,
+                'price_per_day' => 0,
                 'image' => '',
                 'features' => ['AC', 'Music System'],
                 'active' => 1
@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 
                                 <div class="col-md-4">
                                     <label for="price_per_day" class="form-label">Price Per Day (₹)</label>
-                                    <input type="number" class="form-control" id="price_per_day" name="price_per_day" value="<?php echo (float)$vehicle['price_per_day']; ?>" min="0" step="100" required>
+                                    <input type="number" class="form-control" id="price_per_day" name="price_per_day" value="<?php echo (float)$vehicle['price_per_day']; ?>" min="0" step="100">
                                 </div>
                                 
                                 <div class="col-md-12">

@@ -90,13 +90,20 @@
                 $delay = 100;
                 foreach ($tourCategories as $cat):
                     $colorClass = isset($cat['color']) ? $cat['color'] : 'primary';
+                    
+                    // Get uploaded image or use fallback
+                    $categoryImage = isset($cat['id']) ? getPrimaryImage('category', $cat['id'], $cat['image'] ?? 'https://images.unsplash.com/photo-1594322436404-5a0526db4d13?q=80&w=1129&auto=format&fit=crop') : ($cat['image'] ?? 'https://images.unsplash.com/photo-1594322436404-5a0526db4d13?q=80&w=1129&auto=format&fit=crop');
                 ?>
                 <!-- <?php echo htmlspecialchars($cat['name']); ?> -->
                 <div class="col-10 col-md-5 col-lg-4 flex-shrink-0 snap-center" data-aos="fade-up" data-aos-delay="<?php echo $delay; ?>">
                     <a href="tours.php?category=<?php echo htmlspecialchars($cat['slug']); ?>#tours" class="text-decoration-none">
                         <div class="card h-100 border-0 shadow-sm hover-lift tour-category-card overflow-hidden">
                             <div class="category-img-wrapper" style="height: 220px; overflow: hidden;">
-                                <img src="<?php echo htmlspecialchars($cat['image']); ?>" class="w-100 h-100 object-fit-cover transition-transform" alt="<?php echo htmlspecialchars($cat['name']); ?>" loading="lazy">
+                                <img src="<?php echo htmlspecialchars($categoryImage); ?>" 
+                                     class="w-100 h-100 object-fit-cover transition-transform" 
+                                     alt="<?php echo htmlspecialchars($cat['name']); ?>" 
+                                     loading="lazy" 
+                                     onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1594322436404-5a0526db4d13?q=80&w=1129&auto=format&fit=crop'">
                             </div>
                             <div class="card-body p-4 text-center">
                                 <div class="icon-circle mb-3 mx-auto text-<?php echo $colorClass; ?> bg-light" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
@@ -219,7 +226,6 @@
                                         <?php if (!empty($place['badge'])): ?>
                                         <span class="badge bg-primary shadow-sm rounded-pill px-3 py-2"><?php echo htmlspecialchars($place['badge']); ?></span>
                                         <?php endif; ?>
-                                        <button class="btn btn-light btn-sm rounded-circle shadow-sm favorite-btn" title="Add to Wishlist"><i class="far fa-heart text-danger"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -231,7 +237,7 @@
                             <p class="text-muted mb-4 flex-grow-1" style="line-height: 1.6;"><?php echo htmlspecialchars($place['description']); ?></p>
                             
                             <div class="mt-auto">
-                                <a href="book.php?destination=<?php echo urlencode($place['title']); ?>" class="btn btn-primary w-100 rounded-pill py-2">
+                                <a href="book.php?destination=<?php echo urlencode($place['title']); ?>" class="btn btn-premium w-100 rounded-pill py-2">
                                     <i class="fas fa-calendar-check me-2"></i>Book Now
                                 </a>
                             </div>

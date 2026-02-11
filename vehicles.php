@@ -121,7 +121,7 @@ include 'includes/header.php';
                             <?php endif; ?>
                         </div>
                         <div class="card-body p-4 d-flex flex-column">
-                            <h3 class="h5 fw-bold mb-2 text-dark"><?php echo htmlspecialchars($vehicle['name']); ?></h3>
+                            <h3 class="h5 fw-bold mb-2 vehicle-name-text"><?php echo htmlspecialchars($vehicle['name']); ?></h3>
                             <p class="text-muted small mb-3 flex-grow-1"><?php echo htmlspecialchars($vehicle['description']); ?></p>
                             
                             <!-- Specs -->
@@ -148,13 +148,8 @@ include 'includes/header.php';
                                 <?php endforeach; ?>
                             </div>
                             
-                            <div class="d-flex align-items-center justify-content-between mt-auto pt-3 border-top">
-                                <div>
-                                    <small class="text-muted d-block">Starting from</small>
-                                    <span class="h5 fw-bold text-primary mb-0">₹<?php echo number_format($vehicle['price_per_day']); ?></span>
-                                    <small class="text-muted">/day</small>
-                                </div>
-                                <a href="book.php?vehicle=<?php echo urlencode($vehicle['name']); ?>" class="btn btn-primary rounded-pill px-4">Book Now</a>
+                            <div class="mt-auto pt-3 border-top">
+                                <a href="book.php?vehicle=<?php echo urlencode($vehicle['name']); ?>" class="btn btn-primary rounded-pill w-100">Book Now</a>
                             </div>
                         </div>
                     </div>
@@ -213,15 +208,16 @@ include 'includes/header.php';
         <h2 class="h1 fw-bold mb-3 text-white">Ready to Travel in Comfort?</h2>
         <p class="lead mb-4 text-white-50">Book your preferred vehicle today and enjoy a hassle-free travel experience across Himachal Pradesh</p>
         <div class="d-flex flex-wrap justify-content-center gap-3">
-            <a href="book.php" class="btn btn-light btn-lg px-5 rounded-pill shadow-sm fw-bold text-primary">Book Your Vehicle</a>
-            <a href="book.php" class="btn btn-outline-light btn-lg px-5 rounded-pill">Get Quote</a>
+            <a href="#vehicles" class="btn btn-light btn-lg px-5 rounded-pill shadow-sm fw-bold text-primary">Book Your Vehicle</a>
+            <a href="https://wa.me/918627873362?text=I%20am%20interested%20in%20getting%20a%20quote%20for%20a%20vehicle" target="_blank" class="btn btn-outline-light btn-lg px-5 rounded-pill">
+                <i class="fab fa-whatsapp me-2"></i>Get Quote
+            </a>
         </div>
     </div>
 </section>
 
-<?php include 'includes/footer.php'; ?>
-
-<!-- Video Mask Script -->
+<?php
+$extraScripts = <<<EOT
 <script src="js/video-mask.js"></script>
 
 <style>
@@ -245,3 +241,6 @@ include 'includes/header.php';
     transform: scale(1.1);
 }
 </style>
+EOT;
+include 'includes/footer.php';
+?>

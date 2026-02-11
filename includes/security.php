@@ -113,42 +113,11 @@ function isValidEmail($email) {
  * Set security headers
  */
 function setSecurityHeaders() {
-        // Content Security Policy
-    $csp = [
-        "default-src 'self'",
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://*.googleapis.com https://*.gstatic.com",
-        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com",
-        "img-src 'self' data: blob: https: http:",
-        "font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://cdnjs.cloudflare.com",
-        "frame-src 'self' https://*.google.com https://*.googleapis.com",  // Allow Google Maps iframe
-        "connect-src 'self' https://api.open-meteo.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://*.googleapis.com https://*.gstatic.com",
-        "media-src 'self' blob:",
-        "object-src 'none'",
-        "base-uri 'self'"
-    ];
-    header("Content-Security-Policy: " . implode("; ", $csp));
-
-
-    // Content Security Policy - Updated to allow all necessary resources
-    // header("Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://cdn.tailwindcss.com 'unsafe-inline'; style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com https://unpkg.com 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://cdnjs.cloudflare.com; connect-src 'self' https://api.open-meteo.com;");
+    // SECURITY HEADERS CLEARED FOR DEBUGGING
+    // All strict policies removed to fix CORS/Resource blocking
     
-    // Prevent clickjacking
-    header("X-Frame-Options: SAMEORIGIN");
-    
-    // Prevent MIME type sniffing
+    // Minimal headers that shouldn't break anything:
     header("X-Content-Type-Options: nosniff");
-    
-    // Enable XSS protection in browsers
-    header("X-XSS-Protection: 1; mode=block");
-    
-    // HSTS (uncomment in production with HTTPS)
-    // header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
-    
-    // Referrer policy
-    header("Referrer-Policy: strict-origin-when-cross-origin");
-    
-    // Permissions policy
-    header("Permissions-Policy: camera=(), microphone=(), geolocation=()");
 }
 
 /**

@@ -289,6 +289,15 @@ include 'includes/header.php';
                 </button>
             </div>
         </form>
+        
+        <?php
+        // Include Image Manager Component if editing existing tour
+        if ($tourId) {
+            $entityType = 'tour';
+            $entityId = $tourId;
+            include 'includes/image-manager.php';
+        }
+        ?>
     </div>
 </div>
 

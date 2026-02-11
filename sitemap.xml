@@ -1,31 +1,39 @@
-<?php
-header('Content-Type: application/xml');
-echo '<?xml version="1.0" encoding="UTF-8"?>';
-echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-
-// Load configuration
-$config = include 'includes/config.php';
-$baseUrl = $config['site_url'];
-
-// Main pages
-$pages = [
-    ['url' => $baseUrl . '/', 'changefreq' => 'weekly', 'priority' => '1.0'],
-    ['url' => $baseUrl . '/index.php', 'changefreq' => 'weekly', 'priority' => '1.0'],
-    ['url' => $baseUrl . '/about.php', 'changefreq' => 'monthly', 'priority' => '0.8'],
-    ['url' => $baseUrl . '/tours.php', 'changefreq' => 'weekly', 'priority' => '0.9'],
-    ['url' => $baseUrl . '/vehicles.php', 'changefreq' => 'weekly', 'priority' => '0.9'],
-    ['url' => $baseUrl . '/book.php', 'changefreq' => 'monthly', 'priority' => '0.8'],
-    ['url' => $baseUrl . '/contact.php', 'changefreq' => 'monthly', 'priority' => '0.7']
-];
-
-foreach ($pages as $page) {
-    echo '<url>';
-    echo '<loc>' . htmlspecialchars($page['url']) . '</loc>';
-    echo '<changefreq>' . $page['changefreq'] . '</changefreq>';
-    echo '<priority>' . $page['priority'] . '</priority>';
-    echo '<lastmod>' . date('Y-m-d') . '</lastmod>';
-    echo '</url>';
-}
-
-echo '</urlset>';
-?>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://travelinpeace.in/</loc>
+    <lastmod><?php echo date('Y-m-d'); ?></lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://travelinpeace.in/tours.php</loc>
+    <lastmod><?php echo date('Y-m-d'); ?></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://travelinpeace.in/vehicles.php</loc>
+    <lastmod><?php echo date('Y-m-d'); ?></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://travelinpeace.in/about.php</loc>
+    <lastmod><?php echo date('Y-m-d'); ?></lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://travelinpeace.in/contact.php</loc>
+    <lastmod><?php echo date('Y-m-d'); ?></lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://travelinpeace.in/reviews.php</loc>
+    <lastmod><?php echo date('Y-m-d'); ?></lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>

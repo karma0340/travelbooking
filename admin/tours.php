@@ -87,8 +87,12 @@ include 'includes/header.php';
                 <?php foreach ($tours as $tour): ?>
                 <tr>
                     <td>
+                        <?php 
+                        $displayImage = getPrimaryImage('tour', $tour['id'], $tour['image'] ?? null);
+                        $imgSrc = (strpos($displayImage, 'http') === 0) ? $displayImage : '../' . $displayImage;
+                        ?>
                         <div class="w-10 h-10 rounded-lg bg-cover bg-center border border-gray-200 shadow-sm" 
-                             style="background-image: url('<?= !empty($tour['image']) ? htmlspecialchars($tour['image']) : '../images/tour-placeholder.jpg' ?>');"></div>
+                             style="background-image: url('<?= htmlspecialchars($imgSrc) ?>');"></div>
                     </td>
                     <td>
                         <span class="font-semibold text-gray-800"><?= htmlspecialchars($tour['title']) ?></span>

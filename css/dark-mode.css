@@ -1,0 +1,29 @@
+/* Dark Mode Form Fixes for Booking Form */
+[data-theme="dark"] .form-floating>.form-control,
+[data-theme="dark"] .form-floating>.form-select {
+    background-color: #ffffff !important;
+    border-color: #ced4da !important;
+    color: #212529 !important;
+}
+
+[data-theme="dark"] .form-floating>label {
+    color: #6c757d !important;
+    /* Muted gray text */
+    background-color: transparent !important;
+    font-weight: bold !important;
+    opacity: 1 !important;
+    z-index: 5;
+}
+
+/* When focused or filled (label moves up) */
+[data-theme="dark"] .form-floating>.form-control:focus~label,
+[data-theme="dark"] .form-floating>.form-control:not(:placeholder-shown)~label,
+[data-theme="dark"] .form-floating>.form-select~label {
+    color: #6c757d !important;
+    background-color: #ffffff !important;
+    /* White bg behind label to hide border */
+    padding: 0 5px !important;
+    height: auto !important;
+    font-size: 0.85rem !important;
+    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem) !important;
+}

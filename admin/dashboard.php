@@ -157,6 +157,30 @@ include 'includes/header.php';
             </div>
         </div>
     </div>
+
+    <!-- Reviews Card -->
+    <div class="card bg-gradient-to-br from-pink-500 to-rose-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 sm:col-span-2 lg:col-span-1">
+        <div class="card-body p-6">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h2 class="text-sm font-medium uppercase opacity-90 tracking-wide">Reviews</h2>
+                    <p class="text-4xl font-bold mt-2"><?php echo number_format($stats['total_reviews'] ?? 0); ?></p>
+                    <div class="flex items-center mt-3 text-sm opacity-80">
+                        <i class="fas fa-comment mr-1"></i>
+                        <span><?= ($stats['pending_reviews'] ?? 0) ?> pending</span>
+                    </div>
+                </div>
+                <div class="bg-white/20 p-4 rounded-2xl">
+                    <i class="fas fa-star fa-2x"></i>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-white/20">
+                <a href="reviews.php" class="text-sm flex items-center hover:underline opacity-90 hover:opacity-100">
+                    Manage reviews <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Main Content -->

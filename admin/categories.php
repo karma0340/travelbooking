@@ -100,11 +100,19 @@ include 'includes/header.php';
                             <tr>
                                 <td class="font-bold"><?php echo $category['display_order']; ?></td>
                                 <td>
-                                    <?php if (!empty($category['image'])): ?>
-                                        <div class="avatar">
+                                    <?php 
+                                    // Get uploaded image or use old image field as fallback
+                                    $displayImage = getPrimaryImage('category', $category['id'], $category['image'] ?? null);
+                                    
+                                    if (!empty($displayImage)): 
+                                    ?>
                                             <div class="w-12 h-12 rounded">
-                                                <img src="../<?php echo htmlspecialchars($category['image']); ?>" 
-                                                     alt="<?php echo htmlspecialchars($category['name']); ?>">
+                                                <?php 
+                                                    $imgSrc = (strpos($displayImage, 'http') === 0) ? $displayImage : '../' . $displayImage;
+                                                ?>
+                                                <img src="<?php echo htmlspecialchars($imgSrc); ?>" 
+                                                     alt="<?php echo htmlspecialchars($category['name']); ?>"
+                                                     onerror="this.parentElement.parentElement.innerHTML='<div class=\'w-12 h-12 rounded bg-gray-200 flex items-center justify-center\'><i class=\'fas fa-image text-gray-400\'></i></div>'">
                                             </div>
                                         </div>
                                     <?php else: ?>

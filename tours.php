@@ -84,83 +84,117 @@ include 'includes/header.php';
 
 <?php include 'includes/tour-sections.php'; ?>
 
-<!-- Testimonials (Simplified) -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="text-center mb-5" data-aos="fade-up">
-            <h2 class="display-5 fw-bold">Traveler Reviews</h2>
-            <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
-                <i class="fas fa-star text-warning"></i>
-                <i class="fas fa-star text-warning"></i>
-                <i class="fas fa-star text-warning"></i>
-                <i class="fas fa-star text-warning"></i>
-                <i class="fas fa-star text-warning"></i>
-                <span class="text-muted fw-semibold">4.9/5 Average Rating</span>
+    <!-- Testimonials Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-7 mx-auto text-center" data-aos="fade-up">
+                    <h2 class="section-title text-center">What Our Customers Say</h2>
+                    <p class="text-muted">Hear from our happy travelers who have experienced the magic of Himachal Pradesh with us</p>
+                    <?php
+                    $stats = getReviewStats();
+                    ?>
+                    <div class="d-flex justify-content-center align-items-center gap-3 mt-3 flex-wrap">
+                        <div class="d-flex align-items-center bg-white shadow-sm px-3 py-2 rounded-pill border">
+                            <span class="fw-bold text-dark me-2 fs-5"><?php echo number_format($stats['average'] ?: 5.0, 1); ?>/5</span>
+                            <div class="text-warning me-2">
+                                <?php
+                                $rating = $stats['average'] ?: 5;
+                                for ($i = 1; $i <= 5; $i++) {
+                                    if ($i <= $rating) {
+                                        echo '<i class="fas fa-star"></i>';
+                                    } elseif ($i - 0.5 <= $rating) {
+                                        echo '<i class="fas fa-star-half-alt"></i>';
+                                    } else {
+                                        echo '<i class="far fa-star"></i>';
+                                    }
+                                }
+                                ?>
+                            </div>
+                            <span class="text-muted small border-start ps-2">Based on <?php echo $stats['total']; ?> reviews</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <?php require_once 'includes/google-config.php'; ?>
+                        <button class="btn btn-outline-primary rounded-pill px-4 me-2" data-bs-toggle="modal" data-bs-target="#addReviewModal">
+                            <i class="fas fa-pen me-2"></i>Write a Review
+                        </button>
+                        <a href="reviews.php" class="btn btn-primary rounded-pill px-4">
+                            View All Reviews <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <?php
+                $reviews = getReviews(3, false);
+                $displayReviews = $reviews;
+                
+                if (empty($displayReviews)): ?>
+                    <div class="col-12 text-center py-5">
+                        <div class="p-5 bg-light rounded-3">
+                            <i class="fas fa-comments text-muted mb-3" style="font-size: 3rem; opacity: 0.5;"></i>
+                            <p class="text-muted mb-0">No reviews yet. Be the first to share your experience!</p>
+                        </div>
+                    </div>
+                <?php endif;
+
+                foreach ($displayReviews as $review):
+                ?>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm p-4 h-100">
+                        <div class="testimonial-rating mb-3">
+                            <?php for($i=1; $i<=5; $i++): ?>
+                                <i class="fas fa-star <?php echo $i <= $review['rating'] ? 'text-warning' : 'text-muted'; ?>"></i>
+                            <?php endfor; ?>
+                        </div>
+                        <p class="testimonial-text">"<?php echo htmlspecialchars($review['review_text']); ?>"</p>
+                        <div class="d-flex align-items-center mt-3">
+                            <div class="testimonial-avatar">
+                                <?php if (!empty($review['google_picture'])): ?>
+                                    <img src="<?php echo htmlspecialchars($review['google_picture']); ?>" alt="<?php echo htmlspecialchars($review['name']); ?>" class="rounded-circle">
+                                <?php elseif (!empty($review['image_path'])): ?>
+                                    <img src="<?php echo htmlspecialchars($review['image_path']); ?>" alt="<?php echo htmlspecialchars($review['name']); ?>" class="rounded-circle">
+                                <?php else: ?>
+                                    <div class="avatar-initials">
+                                        <?php echo strtoupper(substr($review['name'], 0, 1)); ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="mb-0 d-flex align-items-center gap-2">
+                                    <?php echo htmlspecialchars($review['name']); ?>
+                                    <?php if (!empty($review['google_id'])): ?>
+                                        <span class="badge bg-primary-subtle text-primary" style="font-size: 0.65rem;" title="Verified via Google">
+                                            <i class="fab fa-google"></i>
+                                        </span>
+                                    <?php endif; ?>
+                                </h6>
+                                <small class="text-muted"><?php echo htmlspecialchars($review['location']); ?></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
             </div>
         </div>
-        
-        <div class="row g-4">
-            <!-- Review 1 -->
-            <div class="col-md-4" data-aos="fade-up">
-                <div class="card border-0 shadow-sm p-4 h-100 review-card">
-                    <div class="d-flex align-items-center mb-3">
-                        <img src="https://ui-avatars.com/api/?name=Priya+S&background=random" class="rounded-circle me-3" width="50" height="50" alt="Priya Sharma reviewer">
-                        <div>
-                            <h6 class="mb-0 fw-bold text-dark">Priya Sharma</h6>
-                            <div class="small text-warning">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-muted fst-italic">"Seamless experience from booking to the actual trip. The Shimla tour was perfectly paced!"</p>
-                </div>
-            </div>
-             <!-- Review 2 -->
-             <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="card border-0 shadow-sm p-4 h-100 review-card">
-                    <div class="d-flex align-items-center mb-3">
-                        <img src="https://ui-avatars.com/api/?name=Rahul+V&background=random" class="rounded-circle me-3" width="50" height="50" alt="Rahul Verma reviewer">
-                        <div>
-                            <h6 class="mb-0 fw-bold text-dark">Rahul Verma</h6>
-                            <div class="small text-warning">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-muted fst-italic">"Spiti Valley was a dream come true. The drivers were skilled and safe. Highly recommended!"</p>
-                </div>
-            </div>
-             <!-- Review 3 -->
-             <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                <div class="card border-0 shadow-sm p-4 h-100 review-card">
-                    <div class="d-flex align-items-center mb-3">
-                        <img src="https://ui-avatars.com/api/?name=Anjali+P&background=random" class="rounded-circle me-3" width="50" height="50" alt="Anjali Patel reviewer">
-                        <div>
-                            <h6 class="mb-0 fw-bold text-dark">Anjali Patel</h6>
-                            <div class="small text-warning">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-muted fst-italic">"Perfect honeymoon package. The hotels were premium and the candlelight dinner was a nice touch."</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 
 <!-- CTA -->
 <section class="py-5 cta-section mt-5 mx-3 rounded-4 mb-5" data-aos="fade-up">
     <div class="container text-center">
         <h2 class="h1 fw-bold mb-3 text-white">Plan Your Customized Trip</h2>
         <p class="lead mb-4 text-white-50">Can't find what you're looking for? Let us create a bespoke itinerary for you.</p>
-        <a href="contact.php#contact-form-section" class="btn btn-light btn-lg px-5 rounded-pill shadow-sm fw-bold text-primary">Contact Travel Experts</a>
+        <a href="https://wa.me/918627873362?text=I%20am%20interested%20in%20planning%20a%20customized%20trip" target="_blank" class="btn btn-light btn-lg px-5 rounded-pill shadow-sm fw-bold text-primary">
+            <i class="fab fa-whatsapp me-2"></i>Contact Travel Experts
+        </a>
     </div>
 </section>
 
-<?php include 'includes/footer.php'; ?>
-
-<!-- Video Mask Script -->
+<?php
+$extraScripts = <<<EOT
 <script src="js/video-mask.js"></script>
 
 <script>
@@ -173,3 +207,8 @@ function scrollSlider(direction) {
     });
 }
 </script>
+EOT;
+?>
+<!-- Review Modal -->
+<?php require_once 'includes/simple-review-modal.php'; ?>
+<?php include 'includes/footer.php'; ?>

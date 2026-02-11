@@ -18,7 +18,7 @@ $vehicle = [
     'description' => '',
     'seats' => 4,
     'bags' => 2,
-    'price_per_day' => 1000,
+    'price_per_day' => 0,
     'image' => '',
     'features' => [],
     'active' => 1
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $vehicle['description'] = $_POST['description'] ?? '';
     $vehicle['seats'] = (int)($_POST['seats'] ?? 4);
     $vehicle['bags'] = (int)($_POST['bags'] ?? 2);
-    $vehicle['price_per_day'] = (float)($_POST['price_per_day'] ?? 1000);
+    $vehicle['price_per_day'] = (float)($_POST['price_per_day'] ?? 0);
     $vehicle['image'] = $_POST['image'] ?? '';
     $vehicle['features'] = isset($_POST['features']) ? explode("\n", $_POST['features']) : [];
     $vehicle['active'] = isset($_POST['active']) ? 1 : 0;
@@ -150,7 +150,7 @@ include 'includes/header.php';
                             </label>
                             <input type="number" class="input input-bordered w-full" id="price_per_day" 
                                    name="price_per_day" value="<?php echo $vehicle['price_per_day']; ?>" 
-                                   min="1" step="1">
+                                   min="0" step="1">
                         </div>
                     </div>
                     
@@ -368,6 +368,15 @@ include 'includes/header.php';
                     </a>
                 </div>
             </form>
+            
+            <?php
+            // Include Image Manager Component if editing existing vehicle
+            if ($vehicleId) {
+                $entityType = 'vehicle';
+                $entityId = $vehicleId;
+                include 'includes/image-manager.php';
+            }
+            ?>
         </div>
     </div>
 </div>

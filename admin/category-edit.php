@@ -200,15 +200,27 @@ include 'includes/header.php';
                     </div>
                     
                     <!-- Preview -->
-                    <?php if (!empty($category['image'])): ?>
+                    <?php 
+                    // Try to get primary image from gallery, fallback to legacy field
+                    $displayImage = '';
+                    if (!empty($categoryId)) {
+                        $displayImage = getPrimaryImage('category', $categoryId, $category['image'] ?? null);
+                    } elseif (!empty($category['image'])) {
+                        $displayImage = $category['image'];
+                    }
+
+                    if (!empty($displayImage)): 
+                        $imgSrc = (strpos($displayImage, 'http') === 0) ? $displayImage : '../' . $displayImage;
+                    ?>
                         <div class="form-control">
                             <label class="label">
                                 <span class="label-text font-medium">Current Image</span>
                             </label>
                             <div class="avatar">
                                 <div class="w-32 rounded">
-                                    <img src="../<?php echo htmlspecialchars($category['image']); ?>" 
-                                         alt="Category Image">
+                                    <img src="<?php echo htmlspecialchars($imgSrc); ?>" 
+                                         alt="Category Image"
+                                         onerror="this.style.display='none'">
                                 </div>
                             </div>
                         </div>
@@ -224,6 +236,15 @@ include 'includes/header.php';
                 </button>
             </div>
         </form>
+        
+        <?php
+        // Include Image Manager Component if editing existing category
+        if ($categoryId) {
+            $entityType = 'category';
+            $entityId = $categoryId;
+            include 'includes/image-manager.php';
+        }
+        ?>
     </div>
 </div>
 

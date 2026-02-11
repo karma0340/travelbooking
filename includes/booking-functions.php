@@ -274,12 +274,23 @@ function getDashboardStats() {
         }
     }
     
+    // Get total reviews
+    $totalReviews = 0;
+    $pendingReviews = 0;
+    $result = $conn->query("SELECT COUNT(*) as count, SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending FROM `reviews` ");
+    if ($result && $row = $result->fetch_assoc()) {
+        $totalReviews = $row['count'] ?? 0;
+        $pendingReviews = $row['pending'] ?? 0;
+    }
+
     return [
         'total_bookings' => $totalBookings,
         'booking_status' => $bookingStatus,
         'total_tours' => $totalTours,
         'total_vehicles' => $totalVehicles,
-        'recent_activity' => $recentActivity
+        'recent_activity' => $recentActivity,
+        'total_reviews' => $totalReviews,
+        'pending_reviews' => $pendingReviews
     ];
 }
 ?>

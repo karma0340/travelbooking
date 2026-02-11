@@ -22,16 +22,58 @@
     color: #f3f4f6 !important;
 }
 
-/* Fix Hero Buttons Interactivity */
+/* Fix Hero Buttons Interactivity & Stacking */
+.hero-section {
+    z-index: 5 !important;
+}
+
+.hero-section .container {
+    z-index: 10 !important;
+    position: relative;
+    pointer-events: auto !important;
+}
+
 .hero-section .btn {
     position: relative;
-    z-index: 20 !important;
-    pointer-events: auto;
+    z-index: 25 !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    pointer-events: auto !important;
+    touch-action: manipulation;
+    /* Faster clicks on mobile */
+    -webkit-tap-highlight-color: transparent;
 }
 
 .hero-section .d-flex {
     position: relative;
     z-index: 20;
+    pointer-events: auto !important;
+}
+
+/* Hover-Lift Consolidation with Touch Device Check */
+.hover-lift {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        box-shadow 0.3s ease !important;
+}
+
+@media (hover: hover) {
+    .hover-lift:hover {
+        transform: translateY(-8px) scale(1.02) !important;
+        box-shadow: 0 15px 30px rgba(79, 70, 229, 0.4) !important;
+        z-index: 30 !important;
+    }
+
+    .btn-outline-light.hover-lift:hover {
+        box-shadow: 0 15px 30px rgba(255, 255, 255, 0.2) !important;
+    }
+}
+
+/* Active state for mobile tactile feedback */
+.hover-lift:active {
+    transform: translateY(-2px) scale(0.98) !important;
+    transition: all 0.1s ease !important;
 }
 
 
@@ -83,17 +125,25 @@
         /* Visibility transitions */
         opacity: 0;
         visibility: hidden;
+        pointer-events: none;
+        /* Prevent blocking clicks when hidden */
         transform: translateY(-20px);
         transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         display: block !important;
         /* Override bootstrap collapse display none */
     }
 
-    .navbar-collapse.show,
-    .navbar-collapse.collapsing {
+    .navbar-collapse.show {
         opacity: 1;
         visibility: visible;
+        pointer-events: auto;
         transform: translateY(0);
+    }
+
+    .navbar-collapse.collapsing {
+        opacity: 0.5;
+        visibility: visible;
+        pointer-events: none;
     }
 
     [data-theme="dark"] .navbar-collapse {
@@ -242,25 +292,71 @@
     opacity: 0.8;
 }
 
-/* 5. Mobile Buttons (Hero Section) */
+/* 5. Mobile Buttons (Hero Section) & Text */
 @media (max-width: 576px) {
-    .d-flex.justify-content-center.gap-3.flex-wrap.mb-5 {
-        flex-direction: column;
-        width: 100%;
-        gap: 1rem !important;
+
+    .hero-section,
+    #home.hero-section {
+        min-height: 70vh !important;
+        height: auto !important;
+        padding-top: 90px !important;
+        padding-bottom: 40px !important;
     }
 
-    .d-flex.justify-content-center.gap-3.flex-wrap.mb-5 .btn {
-        width: 100%;
-        margin: 0;
+    /* Buttons Container */
+    .hero-section .d-flex.justify-content-center.gap-3.flex-wrap.mb-5 {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 1.25rem !important;
+        max-width: 320px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 
-    /* Adjust hero text size for mobile */
-    .video-text {
-        font-size: 2rem !important;
+    .hero-section .btn {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 1rem 1.5rem !important;
+        font-size: 1rem !important;
+        border-radius: 50px !important;
+        display: flex !important;
+        justify-content: center !important;
     }
 
-    .video-text.subtitle {
-        font-size: 1.2rem !important;
+    /* Hero Text Adjustments */
+    .hero-title,
+    .hero-section h1 {
+        font-size: 2.5rem !important;
+        letter-spacing: -0.01em !important;
+        margin-bottom: 0.75rem !important;
+    }
+
+    .hero-subtitle,
+    .hero-section h2 {
+        font-size: 1.25rem !important;
+        margin-bottom: 1.5rem !important;
+        letter-spacing: 0.15em !important;
+    }
+
+    /* Prevent text wrapping issues on very small screens */
+    .hero-section .lead {
+        font-size: 0.95rem !important;
+        padding: 0 15px !important;
+        margin-bottom: 2rem !important;
+        display: block !important;
+        line-height: 1.5 !important;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .hero-title,
+    .hero-section h1 {
+        font-size: 2.1rem !important;
+    }
+
+    .hero-section .btn {
+        padding: 0.85rem 1.25rem !important;
+        font-size: 0.95rem !important;
     }
 }

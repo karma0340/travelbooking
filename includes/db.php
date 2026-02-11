@@ -25,4 +25,6 @@ require_once __DIR__ . '/vehicle-functions.php';
 require_once __DIR__ . '/booking-functions.php';
 require_once __DIR__ . '/user-functions.php';
 require_once __DIR__ . '/category-functions.php';
+require_once __DIR__ . '/review-functions.php';
+require_once __DIR__ . '/image-helper.php';
 ?>

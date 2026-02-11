@@ -85,6 +85,8 @@ header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 31536000));
             transition: none !important;
         }
 
+        /* Remove the old hero-section styles as they are replaced by the new structure and inline styles */
+        /*
         .hero-section {
             min-height: 100vh;
             position: relative;
@@ -92,6 +94,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 31536000));
             overflow: hidden;
             background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1626015379120-5e537de5310f?q=80&w=1200&auto=format&fit=crop') no-repeat center/cover;
         }
+        */
 
         .hero-overlay {
             position: absolute;
@@ -363,72 +366,6 @@ header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 31536000));
             text-decoration: none !important;
         }
 
-        .cta-section {
-            background-color: var(--daisyui-primary);
-            /* DaisyUI primary color */
-            color: var(--daisyui-primary-content);
-            /* Text color for primary background */
-            padding: 3rem 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .cta-section h3 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--daisyui-primary-content);
-        }
-
-        .cta-section p {
-            font-size: 1.125rem;
-            margin-bottom: 2rem;
-            color: var(--daisyui-primary-content);
-        }
-
-        .cta-section .btn {
-            background-color: var(--daisyui-secondary);
-            color: var(--daisyui-secondary-content);
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 0.5rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .cta-section .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
-            transform: rotate(45deg);
-            z-index: 0;
-        }
-
-        .cta-section .btn:focus {
-            outline: none;
-            box-shadow: 0 0 0 4px var(--daisyui-secondary-focus);
-        }
-
-        .cta-section .btn-secondary {
-            background-color: var(--daisyui-accent);
-            color: var(--daisyui-accent-content);
-        }
-
-        .cta-section .btn-secondary:hover {
-            background-color: var(--daisyui-accent-focus);
-        }
 
         /* About section paragraph styling - with higher specificity */
         /* section#about p {
@@ -731,16 +668,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 31536000));
         border-color: #4F46E5;
     }
     
-    /* Fix navbar overlap with content */
-    body {
-        padding-top: 80px; /* Adjust based on navbar height */
-    }
-    
-    @media (max-width: 991px) {
-        body {
-            padding-top: 70px; /* Smaller padding for mobile */
-        }
-    }
+    /* Removed redundant body padding that was pushing hero section down */
 
 /* Updated navbar brand styles */
 .navbar-branddecline .text-primary {
@@ -772,14 +700,26 @@ header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 31536000));
     font-size: 1.6rem !important;
     font-weight: 400 !important;
 }
-    </style>
+</style>
 
+<!-- Hero Section -->
+<section class="hero-section d-flex align-items-center justify-content-center" style="min-height: 60vh;">
+    <div class="hero-overlay"></div>
+    <div class="container" style="position: relative; z-index: 10;">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <div data-aos="fade-up">
+                    <h1 class="hero-title">Book Your Journey</h1>
+                    <p class="lead mb-4 text-white">Experience the magic of Himachal with personalized tours and premium vehicles.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-
-
-    <!-- About Us -->
-    <section id="booking-section" class="py-5 position-relative" style="background-color: #f3f4f6;">
-        <div class="container position-relative z-1 ">
+<!-- Booking Form Section -->
+<section id="booking-section" class="py-5 position-relative" style="background-color: #f3f4f6;">
+    <div class="container position-relative z-1 ">
             <div class="row g-0 shadow-lg rounded-4 overflow-hidden bg-white" style="min-height: 600px;">
                 <!-- Left Side: Image & Info -->
                 <div class="col-lg-5 d-none d-lg-block position-relative">
@@ -955,7 +895,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 31536000));
                                 <p class="mb-0">Book your tour today and get special discounts on group bookings!</p>
                             </div>
                             <div class="col-lg-4 text-lg-end">
-                                <a href="#contact" class="btn book-btn text-white">Contact Us Today</a>
+                                <a href="#contact" class="btn btn-premium rounded-pill px-4 py-2">Contact Us Today</a>
                             </div>
                         </div>
                     </div>
@@ -1062,196 +1002,10 @@ header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 31536000));
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="pt-5 pb-3">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="footer-brand d-flex align-items-center mb-3">
-                        <i class="fas fa-plane me-2" style="font-size: 1.8rem; color: #4F46E5; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));"></i>
-                        <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.5rem;">
-                            <!-- <span class="text-primary">Tyagi</span>  -->
-                            <span class="text-light">Travel In Peace</span>
-                        </span>
-                    </div>
-                    <p class="text-light-50">Offering premium travel services across Himachal Pradesh and beyond. Your comfort is our priority.</p>
-                    <div class="social-icons">
-                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.instagram.com/travelinpeace605?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
+<?php
+$extraScripts = '<script defer src="js/booking.js"></script>';
+include 'includes/footer.php';
+?>
 
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <h5 class="text-white mb-4">Quick Links</h5>
-                    <ul class="list-unstyled footer-links">
-                        <li><a href="index.php">Home</a></li>
-                        <li><a href="index.php#about">About Us</a></li>
-                        <li><a href="index.php#tours">Tours</a></li>
-                        <li><a href="index.php#vehicles">Vehicles</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
 
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5 class="text-white mb-4">Popular Destinations</h5>
-                    <ul class="list-unstyled footer-links">
-                        <li><a href="https://www.google.com/maps/place/Shimla,+Himachal+Pradesh/"  target="_blank">Shimla</a></li>
-                        <li><a href="https://www.google.com/maps/place/Manali,+Himachal+Pradesh/" target="_blank">Manali</a></li>
-                        <li><a href="https://www.google.com/maps/place/Dharamshala,+Himachal+Pradesh/" target="_blank">Dharamshala</a></li>
-                        <li><a href="https://www.google.com/maps/place/Dalhousie,+Himachal+Pradesh/" target="_blank">Dalhousie</a></li>
-                        <li><a href="https://www.google.com/maps/place/Spiti+Valley,+Himachal+Pradesh/" target="_blank">Spiti Valley</a></li>
-                    </ul>
-                </div>
 
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5 class="text-white mb-4">Newsletter</h5>
-                    <p class="text-light-50">Subscribe to get updates on new tours and offers</p>
-                    <form class="newsletter-form">
-                        <div class="input-group">
-                            <input type="email" class="form-control" placeholder="Your email">
-                            <button class="btn btn-primary">Subscribe</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <hr class="mt-4 mb-4 bg-light opacity-10">
-
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="mb-0 text-light-50">© 2026 Travel In Peace. All rights reserved.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <p class="mb-0 text-light-50">
-                        <a href="#" class="text-light-50">Terms & Conditions</a> |
-                        <a href="#" class="text-light-50">Privacy Policy</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Back to Top Button -->
-    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
-
-    <!-- WhatsApp Button - opens modal to choose number -->
-    <button id="whatsapp-btn" class="whatsapp-button" title="Contact us on WhatsApp" aria-label="Contact us on WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </button>
-
-    <!-- WhatsApp Modal - Shows both numbers -->
-    <div id="whatsapp-modal" class="whatsapp-modal">
-        <div class="whatsapp-modal-content">
-            <div class="whatsapp-modal-header">
-                <h3><i class="fab fa-whatsapp"></i> Choose a Number to Message</h3>
-                <button class="whatsapp-modal-close" id="whatsapp-modal-close" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="whatsapp-options">
-                <a href="https://wa.me/+917559775470?text=Hello, I want to know more about your services." class="whatsapp-option" target="_blank" rel="noopener noreferrer" title="Message this number on WhatsApp">
-                    <div class="whatsapp-option-icon">
-                        <i class="fab fa-whatsapp"></i>
-                    </div>
-                    <div class="whatsapp-option-content">
-                        <div class="whatsapp-option-label">Primary Contact</div>
-                        <div class="whatsapp-option-number">+91 7559775470</div>
-                    </div>
-                    <div class="whatsapp-option-arrow">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </a>
-
-                <a href="https://wa.me/+918627873362?text=Hello, I want to know more about your services." class="whatsapp-option" target="_blank" rel="noopener noreferrer" title="Message this number on WhatsApp">
-                    <div class="whatsapp-option-icon">
-                        <i class="fab fa-whatsapp"></i>
-                    </div>
-                    <div class="whatsapp-option-content">
-                        <div class="whatsapp-option-label">Alternative Contact</div>
-                        <div class="whatsapp-option-number">+91 8627873362</div>
-                    </div>
-                    <div class="whatsapp-option-arrow">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <!-- Load critical scripts first, defer others -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- WhatsApp Modal functionality -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const whatsappBtn = document.getElementById('whatsapp-btn');
-        const whatsappModal = document.getElementById('whatsapp-modal');
-        const whatsappModalClose = document.getElementById('whatsapp-modal-close');
-
-        // Open modal when button is clicked
-        whatsappBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            whatsappModal.classList.add('show');
-        });
-
-        // Close modal when X button is clicked
-        whatsappModalClose.addEventListener('click', function() {
-            whatsappModal.classList.remove('show');
-        });
-
-        // Close modal when clicking outside the modal content
-        whatsappModal.addEventListener('click', function(e) {
-            if (e.target === whatsappModal) {
-                whatsappModal.classList.remove('show');
-            }
-        });
-
-        // Close modal on Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                whatsappModal.classList.remove('show');
-            }
-        });
-    });
-    </script>
-
-    <!-- Defer non-critical scripts -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
-    <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <!-- Initialize animation library only after page is interactive -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize AOS with delay
-            setTimeout(function() {
-                const aosScript = document.createElement('script');
-                aosScript.onload = function() {
-                    AOS.init({
-                        once: true,
-                        offset: 100,
-                        duration: 800
-                    });
-                };
-                aosScript.src = 'https://unpkg.com/aos@2.3.1/dist/aos.js';
-                document.head.appendChild(aosScript);
-            }, 1000);
-        });
-    </script>
-
-    <!-- Custom scripts - load at the end -->
-    <script defer src="js/responsive-helper.js"></script>
-    <script defer src="js/weather-service.js"></script>
-    <script defer src="js/three-scene.js"></script>
-    <script defer src="js/animations.js"></script>
-    <script defer src="js/theme-switcher.js"></script>
-    <script defer src="js/main.js"></script>
-    <script defer src="js/booking.js"></script>
-</body>
-
-</html>

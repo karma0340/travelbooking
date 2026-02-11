@@ -90,11 +90,11 @@
                     </li>
                     
                     <!-- Reviews -->
-                    <!-- <li>
+                    <li>
                         <a href="reviews.php" class="<?php echo ($activePage == 'reviews') ? 'active' : ''; ?>">
                             <i class="fas fa-star w-5"></i> Reviews
                         </a>
-                    </li> -->
+                    </li>
                     
                     <!-- Admin Users - Only visible to admins -->
                     <?php if (isset($user['role']) && $user['role'] === 'admin'): ?>

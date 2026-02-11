@@ -16,13 +16,17 @@ document.addEventListener('DOMContentLoaded', function () {
     initMobileMenu();
 
     // Fix for theme toggle
-    initThemeToggle();
+    // initThemeToggle(); // Handled in header.php now
+    initWhatsAppModal();
 
     // Initialize header scroll effect
     initHeaderScroll();
 
     // Initialize AOS Animation
     initAOS();
+
+    // Initialize Review Form
+    initReviewForm();
 });
 
 /**
@@ -50,9 +54,14 @@ function initSmoothScrolling() {
 
                 // Scroll to the target element if it exists
                 if (targetElement) {
+                    // Calculate exact position with header offset
+                    const headerOffset = 85;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
                     // Scroll smoothly
                     window.scrollTo({
-                        top: targetElement.offsetTop - 80, // Offset for fixed header
+                        top: offsetPosition,
                         behavior: 'smooth'
                     });
 
@@ -135,39 +144,6 @@ function initMobileMenu() {
 }
 
 /**
- * Initialize theme toggle
- */
-function initThemeToggle() {
-    const themeToggle = document.getElementById('theme-toggle');
-
-    if (themeToggle) {
-        // Check for saved theme preference
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        // Set initial theme based on preference
-        if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme)) {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            themeToggle.checked = true;
-        } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-            themeToggle.checked = false;
-        }
-
-        // Handle theme toggle
-        themeToggle.addEventListener('change', function () {
-            if (this.checked) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-            }
-        });
-    }
-}
-
-/**
  * Initialize header scroll effect - adds blur background when scrolling
  */
 function initHeaderScroll() {
@@ -219,6 +195,109 @@ function initAOS() {
         document.querySelectorAll('[data-aos]').forEach(el => {
             el.style.opacity = '1';
             el.style.transform = 'none';
+        });
+    }
+}
+
+/**
+ * Initialize review form submission
+ */
+/**
+ * Initialize review form submission
+ */
+function initReviewForm() {
+    const reviewForm = document.getElementById('review-form');
+    const successMessage = document.getElementById('review-success');
+    const modalElement = document.getElementById('addReviewModal');
+
+    if (reviewForm) {
+        // Reset modal state when hidden
+        if (modalElement) {
+            modalElement.addEventListener('hidden.bs.modal', function () {
+                if (successMessage) {
+                    successMessage.classList.add('d-none');
+                }
+                reviewForm.classList.remove('d-none');
+                reviewForm.reset();
+            });
+        }
+
+        reviewForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
+
+            const formData = new FormData(this);
+
+            fetch('api/save-review.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (successMessage) {
+                            // Show beautiful success message inside modal
+                            reviewForm.classList.add('d-none');
+                            successMessage.classList.remove('d-none');
+                        } else {
+                            // Fallback to alert
+                            alert(data.message);
+                            reviewForm.reset();
+                            if (typeof bootstrap !== 'undefined' && modalElement) {
+                                const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+                                modal.hide();
+                            }
+                        }
+                    } else {
+                        alert(data.message || 'Something went wrong. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Connection error. Please try again.');
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                });
+        });
+    }
+}
+
+/**
+ * Initialize WhatsApp Modal
+ */
+function initWhatsAppModal() {
+    const whatsappBtn = document.getElementById('whatsapp-btn');
+    const whatsappModal = document.getElementById('whatsapp-modal');
+    const whatsappModalClose = document.getElementById('whatsapp-modal-close');
+
+    if (whatsappBtn && whatsappModal && whatsappModalClose) {
+        whatsappBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            whatsappModal.classList.add('show');
+        });
+
+        whatsappModalClose.addEventListener('click', function () {
+            whatsappModal.classList.remove('show');
+        });
+
+        whatsappModal.addEventListener('click', function (e) {
+            if (e.target === whatsappModal) {
+                whatsappModal.classList.remove('show');
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                whatsappModal.classList.remove('show');
+            }
         });
     }
 }

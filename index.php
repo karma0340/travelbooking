@@ -1,4 +1,8 @@
 <?php
+// Temporary Debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Start session securely - move this before any output
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
@@ -73,6 +77,7 @@ include 'includes/header.php';
 <!-- Hero Section -->
 <section id="home" class="hero-section d-flex align-items-center justify-content-center">
     <!-- Enhanced overlay gradient -->
+    <!-- Enhanced overlay gradient -->
     <div class="hero-overlay"></div>
     
     <div class="container" style="position: relative;">
@@ -90,14 +95,14 @@ include 'includes/header.php';
                     
                     <!-- Buttons -->
                     <div class="d-flex justify-content-center gap-3 flex-wrap mb-5">
-                        <a href="contact.php#contact-form-section" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg hover-lift">
+                        <a href="#contact" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg hover-lift">
                             <span>Plan Now</span>
                         </a>
-                        <a href="tours.php" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill hover-lift">
+                        <a href="#categories" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill hover-lift">
                             Explore<i class="fas fa-arrow-right ms-2"></i>
                         </a>
                     </div>
-
+                    
                     <!-- Stats - Now Centered Below Content -->
                     <div class="hero-stats">
                         <div class="stat-item">
@@ -123,7 +128,7 @@ include 'includes/header.php';
     
     <!-- Scroll indicator -->
     <div class="hero-scroll-indicator">
-        <a href="#tours" class="text-white">
+        <a href="#categories" class="text-white">
             <i class="fas fa-chevron-down"></i>
         </a>
     </div>
@@ -299,75 +304,93 @@ include 'includes/header.php';
                 <div class="col-lg-7 mx-auto text-center" data-aos="fade-up">
                     <h2 class="section-title text-center">What Our Customers Say</h2>
                     <p class="text-muted">Hear from our happy travelers who have experienced the magic of Himachal Pradesh with us</p>
+                    <?php
+                    $stats = getReviewStats();
+                    ?>
+                    <div class="d-flex justify-content-center align-items-center gap-3 mt-3 flex-wrap">
+                        <div class="d-flex align-items-center bg-white shadow-sm px-3 py-2 rounded-pill border">
+                            <span class="fw-bold text-dark me-2 fs-5"><?php echo number_format($stats['average'] ?: 5.0, 1); ?>/5</span>
+                            <div class="text-warning me-2">
+                                <?php
+                                $rating = $stats['average'] ?: 5;
+                                for ($i = 1; $i <= 5; $i++) {
+                                    if ($i <= $rating) {
+                                        echo '<i class="fas fa-star"></i>';
+                                    } elseif ($i - 0.5 <= $rating) {
+                                        echo '<i class="fas fa-star-half-alt"></i>';
+                                    } else {
+                                        echo '<i class="far fa-star"></i>';
+                                    }
+                                }
+                                ?>
+                            </div>
+                            <span class="text-muted small border-start ps-2">Based on <?php echo $stats['total']; ?> reviews</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <?php require_once 'includes/google-config.php'; ?>
+                        <button type="button" class="btn btn-outline-primary rounded-pill px-4 me-2" data-bs-toggle="modal" data-bs-target="#addReviewModal">
+                            <i class="fas fa-pen me-2"></i>Write a Review
+                        </button>
+                        <a href="reviews.php" class="btn btn-primary rounded-pill px-4">
+                            View All Reviews <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
             
             <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card border-0 shadow-sm p-4 h-100">
-                        <div class="testimonial-rating mb-3">
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                        </div>
-                        <p class="testimonial-text">"Our trip to Shimla was unforgettable. The tour was well-organized and the guide was very knowledgeable. Highly recommend!"</p>
-                        <div class="d-flex align-items-center mt-3">
-                            <div class="testimonial-avatar">
-                                <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Priya Sharma - Happy Traveler with Travel In Peace" class="rounded-circle">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0">Priya Sharma</h6>
-                                <small class="text-muted">Delhi</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                $reviews = getReviews(3, false);
+                $displayReviews = $reviews;
                 
+                if (empty($displayReviews)): ?>
+                    <div class="col-12 text-center py-5">
+                        <div class="p-5 bg-light rounded-3">
+                            <i class="fas fa-comments text-muted mb-3" style="font-size: 3rem; opacity: 0.5;"></i>
+                            <p class="text-muted mb-0">No reviews yet. Be the first to share your experience!</p>
+                        </div>
+                    </div>
+                <?php endif;
+
+                foreach ($displayReviews as $review):
+                ?>
                 <div class="col-md-4">
                     <div class="card border-0 shadow-sm p-4 h-100">
                         <div class="testimonial-rating mb-3">
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
+                            <?php for($i=1; $i<=5; $i++): ?>
+                                <i class="fas fa-star <?php echo $i <= $review['rating'] ? 'text-warning' : 'text-muted'; ?>"></i>
+                            <?php endfor; ?>
                         </div>
-                        <p class="testimonial-text">"The Spiti Valley trek was a life-changing experience. The guides were excellent and the arrangements were perfect. Will definitely book with Travel In Peace again!"</p>
+                        <p class="testimonial-text">"<?php echo htmlspecialchars($review['review_text']); ?>"</p>
                         <div class="d-flex align-items-center mt-3">
                             <div class="testimonial-avatar">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Rahul Verma - Adventure Tour Review" class="rounded-circle">
+                                <?php if (!empty($review['google_picture'])): ?>
+                                    <img src="<?php echo htmlspecialchars($review['google_picture']); ?>" alt="<?php echo htmlspecialchars($review['name']); ?>" class="rounded-circle">
+                                <?php elseif (!empty($review['image_path'])): ?>
+                                    <img src="<?php echo htmlspecialchars($review['image_path']); ?>" alt="<?php echo htmlspecialchars($review['name']); ?>" class="rounded-circle">
+                                <?php else: ?>
+                                    <div class="avatar-initials">
+                                        <?php echo strtoupper(substr($review['name'], 0, 1)); ?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                             <div class="ms-3">
-                                <h6 class="mb-0">Rahul Verma</h6>
-                                <small class="text-muted">Mumbai</small>
+                                <h6 class="mb-0 d-flex align-items-center gap-2">
+                                    <?php echo htmlspecialchars($review['name']); ?>
+                                    <?php if (!empty($review['google_id'])): ?>
+                                        <span class="badge bg-primary-subtle text-primary" style="font-size: 0.65rem;" title="Verified via Google">
+                                            <i class="fab fa-google"></i>
+                                        </span>
+                                    <?php endif; ?>
+                                </h6>
+                                <small class="text-muted"><?php echo htmlspecialchars($review['location']); ?></small>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="col-md-4">
-                    <div class="card border-0 shadow-sm p-4 h-100">
-                        <div class="testimonial-rating mb-3">
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star-half-alt text-warning"></i>
-                        </div>
-                        <p class="testimonial-text">"We booked the Innova Crysta for our family trip to Manali. The vehicle was in excellent condition and the driver was very professional and friendly."</p>
-                        <div class="d-flex align-items-center mt-3">
-                            <div class="testimonial-avatar">
-                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Anita Gupta - Family Tour Feedback" class="rounded-circle">
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="mb-0">Anita Gupta</h6>
-                                <small class="text-muted">Bangalore</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
@@ -434,9 +457,36 @@ include 'includes/header.php';
                         <!-- Timeline will be animated with GSAP -->
                     </div>
                 </div>
-<!-- Replace the empty about-3d div with this code -->
-<div class="col-lg-6" data-aos="fade-left">    <div id="about-3d" class="about-3d-wrapper">
-        <img src="images/new.jpg" alt="Scenic Himachal landscape explored with Travel In Peace" class="about-video shadow-lg rounded-4" style="width: 100%; height: 100%; object-fit: cover;">
+<!-- Meet Our Leader Section -->
+<div class="col-lg-6" data-aos="fade-left">
+    <div class="text-center mb-4">
+        <span class="text-primary fw-bold text-uppercase letter-spacing-1 d-block mb-1">Our Team</span>
+        <h2 class="display-5 fw-bold mb-4">Meet Our Leader</h2>
+    </div>
+    
+    <div class="leader-card p-4 p-md-5 text-center">
+        <div class="leader-avatar-wrapper">
+            <img src="images/nikhil_tyagi.jpg" alt="Nikhil Tyagi - Founder & CEO" class="leader-avatar">
+        </div>
+        
+        <h3 class="leader-name">Nikhil Tyagi</h3>
+        <p class="leader-title">Founder & CEO</p>
+        
+        <p class="leader-bio">
+            With over 7 years of experience in tourism, Nikhil leads our team with passion and innovation, ensuring every journey becomes an unforgettable memory for our clients.
+        </p>
+        
+        <div class="leader-socials">
+            <a href="https://www.facebook.com/travelinpeace605" class="social-link facebook" title="Facebook" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://wa.me/+918627873362" class="social-link whatsapp" title="WhatsApp" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="https://www.instagram.com/travelinpeace_/" class="social-link instagram" title="Instagram" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
     </div>
 </div>
             </div>
@@ -455,7 +505,7 @@ include 'includes/header.php';
                                 <p class="mb-0">Book your tour today and get special discounts on group bookings!</p>
                             </div>
                             <div class="col-lg-4 text-lg-end">
-                                <a href="book.php" class="btn book-btn text-white">Contact Us Today</a>
+                                <a href="book.php" class="btn btn-premium rounded-pill px-4 py-2">Contact Us Today</a>
                             </div>
                         </div>
                     </div>
@@ -464,13 +514,98 @@ include 'includes/header.php';
         </div>
     </section>
 
+    <style>
+        .contact-map-wrapper {
+            margin-right: -15px;
+        }
+
+        .map-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            height: 400px;
+            margin-bottom: 2rem;
+        }
+
+        .map-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 991px) {
+            .contact-map-wrapper {
+                margin-right: 0;
+                margin-bottom: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .map-container {
+                height: 300px;
+            }
+        }
+
+        .contact-info {
+            padding: 0.5rem 0;
+        }
+
+        .contact-icon {
+            width: 30px;
+            height: 30px;
+            background-color: var(--bs-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-right: 0.5rem;
+        }
+
+        .contact-item {
+            height: auto;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item h6 {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-item p {
+            font-size: 0.8rem;
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 991px) {
+            .contact-info .row {
+                margin-right: 0;
+                margin-left: 0;
+            }
+            .contact-item {
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .leader-avatar-wrapper {
+                width: 140px;
+                height: 140px;
+            }
+        }
+    </style>
+
     <!-- Contact Section -->
     <section id="contact" class="py-5 py-lg-7 bg-light">
         <div class="container">
             <div class="row mb-5">
                 <div class="col-lg-7 mx-auto text-center" data-aos="fade-up">
                     <h2 class="section-title text-center">Contact Us</h2>
-                    <p class="text-muted">Reach out to us for bookings, inquiries, or customized tour packages</p>
+                    <p class="text-muted">Reach out to us for bookings, inquiries, or customized tours</p>
                 </div>
             </div>
             
@@ -478,12 +613,12 @@ include 'includes/header.php';
                 <div class="col-lg-6" data-aos="fade-right">
                     <div class="contact-map-wrapper">
                         <div class="w-full h-96 map-container">
-                            <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3429.243952504936!2d77.17068281513686!3d31.10444398144085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390578e9f2910903%3A0x6e9a0e637841c646!2sShimla%2C%20Himachal%20Pradesh!5e0!3m2!1sen!2sin!4v1625642531386!5m2!1sen!2sin"
-                                width="100%" 
-                                height="100%" 
-                                style="border:0;" 
-                                allowfullscreen="" 
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3472.0673758453463!2d77.17031077529827!3d31.098990067939283!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDA1JzU2LjQiTiA3N8KwMTAnMTAuMiJF!5e1!3m2!1sen!2sin!4v1639998273714!5m2!1sen!2sin"
+                                width="100%"
+                                height="100%"
+                                style="border:0;"
+                                allowfullscreen=""
                                 loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade">
                             </iframe>
@@ -605,7 +740,7 @@ include 'includes/header.php';
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <button type="submit" id="submitBooking" class="btn book-btn text-white w-100 py-3">Submit Request</button>
+                                        <button type="submit" id="submitBooking" class="btn btn-premium w-100 py-3 rounded-pill">Submit Request</button>
                                     </div>
                                     <div class="col-12 mt-3">
                                         <div class="alert alert-success d-none" id="bookingSuccess">
@@ -649,231 +784,38 @@ include 'includes/header.php';
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="pt-5 pb-3">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="footer-brand d-flex align-items-center mb-3">
-                        <i class="fas fa-plane me-2" style="font-size: 1.8rem; color: #4F46E5; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));"></i>
-                        
-                        <span>
-                            <!-- <span class="text-primary" style="font-family: 'Righteous', sans-serif; font-weight: 400; font-size: 1.6rem;">TYAGI</span> -->
-                            <span class="text-light" style="font-family: 'Montserrat', sans-serif; font-size: 1.2rem;"> Travel In Peace</span>
-                        </span>
-                    </div>
-                    <p class="text-light-50">Offering premium travel services across Himachal Pradesh and beyond. Your comfort is our priority.</p>
-                    <div class="social-icons">
-                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.instagram.com/travelinpeace605?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <h5 class="text-white mb-4">Quick Links</h5>
-                    <ul class="list-unstyled footer-links">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#tours">Tours</a></li>
-                        <li><a href="#vehicles">Vehicles</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5 class="text-white mb-4">Popular Destinations</h5>
-                    <ul class="list-unstyled footer-links">
-                        <li><a href="https://www.google.com/maps/place/Shimla,+Himachal+Pradesh/"  target="_blank">Shimla</a></li>
-                        <li><a href="https://www.google.com/maps/place/Manali,+Himachal+Pradesh/" target="_blank">Manali</a></li>
-                        <li><a href="https://www.google.com/maps/place/Dharamshala,+Himachal+Pradesh/" target="_blank">Dharamshala</a></li>
-                        <li><a href="https://www.google.com/maps/place/Dalhousie,+Himachal+Pradesh/" target="_blank">Dalhousie</a></li>
-                        <li><a href="https://www.google.com/maps/place/Spiti+Valley,+Himachal+Pradesh/" target="_blank">Spiti Valley</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5 class="text-white mb-4">Newsletter</h5>
-                    <p class="text-light-50">Subscribe to get updates on new tours and offers</p>
-                    <form class="newsletter-form">
-                        <div class="input-group">
-                            <input type="email" class="form-control" placeholder="Your email">
-                            <button class="btn btn-primary">Subscribe</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            
-            <hr class="mt-4 mb-4 bg-light opacity-10">
-            
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="mb-0 text-light-50">© <?php echo date('Y'); ?> Travel In Peace. All rights reserved.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <p class="mb-0 text-light-50">
-                        <a href="#" class="text-light-50">Terms & Conditions</a> |
-                        <a href="#" class="text-light-50">Privacy Policy</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Back to Top Button -->
-    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
-    
-    <!-- WhatsApp Button - Single button that opens modal -->
-    <button id="whatsapp-btn" class="whatsapp-button" title="Contact us on WhatsApp" aria-label="Contact us on WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </button>
-
-    <!-- Instagram Button -->
-    <a href="https://www.instagram.com/travelinpeace_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="instagram-button" title="Follow us on Instagram" aria-label="Follow us on Instagram">
-        <i class="fab fa-instagram"></i>
-    </a>
-
-    <!-- WhatsApp Modal - Shows both numbers -->
-    <div id="whatsapp-modal" class="whatsapp-modal">
-        <div class="whatsapp-modal-content">
-            <div class="whatsapp-modal-header">
-                <h3><i class="fab fa-whatsapp"></i> Choose a Number to Message</h3>
-                <button class="whatsapp-modal-close" id="whatsapp-modal-close" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="whatsapp-options">
-                <!-- First Contact Option -->
-                <a href="https://wa.me/+917559775470?text=Hello, I want to know more about your services." class="whatsapp-option" target="_blank" rel="noopener noreferrer" title="Message this number on WhatsApp">
-                    <div class="whatsapp-option-icon">
-                        <i class="fab fa-whatsapp"></i>
-                    </div>
-                    <div class="whatsapp-option-content">
-                        <div class="whatsapp-option-label">Primary Contact</div>
-                        <div class="whatsapp-option-number">+91 7559775470</div>
-                    </div>
-                    <div class="whatsapp-option-arrow">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </a>
-
-                <!-- Second Contact Option -->
-                <a href="https://wa.me/+918627873362?text=Hello, I want to know more about your services." class="whatsapp-option" target="_blank" rel="noopener noreferrer" title="Message this number on WhatsApp">
-                    <div class="whatsapp-option-icon">
-                        <i class="fab fa-whatsapp"></i>
-                    </div>
-                    <div class="whatsapp-option-content">
-                        <div class="whatsapp-option-label">Alternative Contact</div>
-                        <div class="whatsapp-option-number">+91 8627873362</div>
-                    </div>
-                    <div class="whatsapp-option-arrow">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<?php
+$extraScripts = '
     <script src="js/vehicle-booking.js"></script>
-    <?php if ($currentPage !== 'weather.php'): ?>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <?php endif; ?>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
-    <!-- AOS is loaded dynamically below to avoid duplicate loading -->
-    
-    <!-- Initialize animation library only after page is interactive -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize AOS with delay
-            setTimeout(function() {
-                const aosScript = document.createElement('script');
-                aosScript.onload = function() {
-                    AOS.init({
-                        once: true,
-                        offset: 100,
-                        duration: 800
-                    });
-                };
-                aosScript.src = 'https://unpkg.com/aos@2.3.1/dist/aos.js';
-                document.head.appendChild(aosScript);
-            }, 1000);
-        });
-    </script>    <!-- Canvas Video Mask Script -->
     <script src="js/video-mask.js"></script>
-
-    <!-- Google Maps API with error handling -->
     <script>
-    // WhatsApp Modal functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        const whatsappBtn = document.getElementById('whatsapp-btn');
-        const whatsappModal = document.getElementById('whatsapp-modal');
-        const whatsappModalClose = document.getElementById('whatsapp-modal-close');
-
-        if (whatsappBtn && whatsappModal && whatsappModalClose) {
-            whatsappBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                whatsappModal.classList.add('show');
-            });
-
-            whatsappModalClose.addEventListener('click', function() {
-                whatsappModal.classList.remove('show');
-            });
-
-            whatsappModal.addEventListener('click', function(e) {
-                if (e.target === whatsappModal) {
-                    whatsappModal.classList.remove('show');
-                }
-            });
-
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    whatsappModal.classList.remove('show');
-                }
-            });
-        }
-    });
-    </script>
-    <script>
-        // Define function to handle Google Maps API errors
         window.gm_authFailure = function() {
-            console.log('Google Maps API authentication error');
-            const mapContainers = document.querySelectorAll('.map-container');
+            console.log("Google Maps API authentication error");
+            const mapContainers = document.querySelectorAll(".map-container");
             mapContainers.forEach(container => {
-                container.innerHTML = '<div class="p-4 bg-light text-center">Map could not be loaded. Please try again later.</div>';
+                container.innerHTML = "<div class=\"p-4 bg-light text-center\">Map could not be loaded. Please try again later.</div>";
             });
         };
-        
-        // Fix for Google Maps embedding error
-        window.onApiLoad = function() {
-            console.log('Google Maps API loaded successfully');
-        };
     </script>
-
-
-    <!-- Custom scripts - load at the end -->
-    <script defer src="js/responsive-helper.js"></script>
-    <script defer src="js/weather-service.js"></script>
-    <script defer src="js/three-scene.js"></script>
-    <script defer src="js/animations.js"></script>
-    <script defer src="js/theme-switcher.js"></script>
-    <script defer src="js/main.js"></script>
-    <script defer src="js/booking.js"></script>
-    
-    <!-- Category Slider Script -->
     <script>
     function scrollSlider(direction) {
-        const slider = document.getElementById('categorySlider');
-        const scrollAmount = slider.clientWidth * 0.8; // Scroll 80% of width
-        slider.scrollBy({
-            left: direction * scrollAmount,
-            behavior: 'smooth'
-        });
+        const slider = document.getElementById("categorySlider");
+        if (slider) {
+            const scrollAmount = slider.clientWidth * 0.8;
+            slider.scrollBy({
+                left: direction * scrollAmount,
+                behavior: "smooth"
+            });
+        }
     }
     </script>
-</body>
-</html>
+';
+?>
+<!-- Review Modal -->
+<?php require_once 'includes/simple-review-modal.php'; ?>
+
+<?php include 'includes/footer.php'; ?>
+
+
+
+</content>

@@ -16,6 +16,45 @@ $structuredData = $structuredData ?? generateStructuredData($pageTitle, $pageDes
 <html lang="en" data-theme="light" prefix="og: http://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
+    <script>
+        /**
+         * Ghost Silence Engine - Ultimate Error Suppression
+         * Intercepts rogue scripts and cached calls to legacy services
+         */
+        (function() {
+            // Silence console errors globally
+            window.addEventListener('error', function(e) {
+                const msg = e.message || '';
+                const file = e.filename || '';
+                const targets = ['nominatim', 'openstreetmap', 'google-analytics', 'reverse', 'google-signin'];
+                if (targets.some(t => msg.includes(t) || file.includes(t))) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }, true);
+
+            // Monkey-patch fetch to block legacy calls
+            const originalFetch = window.fetch;
+            window.fetch = function() {
+                const url = typeof arguments[0] === 'string' ? arguments[0] : (arguments[0] instanceof URL ? arguments[0].href : '');
+                if (url && (url.includes('nominatim') || url.includes('openstreetmap.org/reverse'))) {
+                    return Promise.reject(new Error('Resource blocked by Ghost Silence'));
+                }
+                return originalFetch.apply(this, arguments);
+            };
+
+            // Monkey-patch XHR to block legacy calls
+            const originalOpen = XMLHttpRequest.prototype.open;
+            XMLHttpRequest.prototype.open = function() {
+                const url = arguments[1];
+                if (typeof url === 'string' && (url.includes('nominatim') || url.includes('openstreetmap'))) {
+                    console.warn('[Ghost Silence] Blocked XHR to ' + url);
+                    return; // Prevent opening the connection
+                }
+                return originalOpen.apply(this, arguments);
+            };
+        })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#4F46E5">
     <title><?php echo htmlspecialchars($pageTitle); ?></title>
@@ -67,8 +106,9 @@ $structuredData = $structuredData ?? generateStructuredData($pageTitle, $pageDes
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive-fixes.css">
+    <link rel="stylesheet" href="css/style.css?v=<?php echo filemtime(__DIR__ . '/../css/style.css'); ?>">
+    <link rel="stylesheet" href="css/responsive-fixes.css?v=<?php echo filemtime(__DIR__ . '/../css/responsive-fixes.css'); ?>">
+    <link rel="stylesheet" href="css/dark-mode.css?v=<?php echo filemtime(__DIR__ . '/../css/dark-mode.css'); ?>">
     
     <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -78,7 +118,7 @@ $structuredData = $structuredData ?? generateStructuredData($pageTitle, $pageDes
         --primary-color: #4F46E5;
         --primary-color-dark: #4338CA;
         --text-color: #111827;
-        --header-height: 80px;
+        --header-height: 70px; /* Reduced from 80px */
         --transition-fast: 0.3s ease;
     }
 
@@ -131,13 +171,13 @@ $structuredData = $structuredData ?? generateStructuredData($pageTitle, $pageDes
     }
 
     header#mainHeader.scrolled {
-        height: 70px;
-        background: rgba(255, 255, 255, 0.95);
+        height: var(--header-height); /* Keep consistent height */
+        background: rgba(255, 255, 255, 0.98);
         box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
     }
 
     [data-theme="dark"] header#mainHeader.scrolled {
-        background: rgba(17, 24, 39, 0.95);
+        background: rgba(17, 24, 39, 0.98);
     }
 
     .header-spacer {
@@ -146,7 +186,7 @@ $structuredData = $structuredData ?? generateStructuredData($pageTitle, $pageDes
     }
 
     header#mainHeader.scrolled + .header-spacer {
-        height: 70px;
+        height: var(--header-height);
     }
 
     .navbar {
@@ -162,6 +202,8 @@ $structuredData = $structuredData ?? generateStructuredData($pageTitle, $pageDes
         justify-content: space-between;
         position: relative;
         z-index: 10;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
     }
 
     /* LOGO */
@@ -174,33 +216,31 @@ $structuredData = $structuredData ?? generateStructuredData($pageTitle, $pageDes
     }
 
     .navbar-brand img {
-        height: 75px;
+        height: 90%; 
         width: auto;
-        max-width: 260px;
+        max-width: 300px;
         object-fit: contain;
         transition: transform var(--transition-fast), height var(--transition-fast), filter var(--transition-fast);
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
     }
-
+    
     header#mainHeader.scrolled .navbar-brand img {
-        height: 62px;
-        filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.25));
+        height: 90%; /* Keep same relative size */
     }
 
     @media (max-width: 991.98px) {
         .navbar-brand img {
-            height: 44px;
-            max-width: 180px;
+            height: 64px; /* Maximized for tablet */
+            max-width: 240px;
         }
         header#mainHeader.scrolled .navbar-brand img {
-            height: 40px;
+            height: 64px;
         }
     }
 
     @media (max-width: 575.98px) {
         .navbar-brand img {
-            height: 40px;
-            max-width: 160px;
+            height: 62px; /* Maximized for mobile (nearly full header) */
+            max-width: 220px;
         }
     }
 
@@ -214,7 +254,7 @@ $structuredData = $structuredData ?? generateStructuredData($pageTitle, $pageDes
         position: relative;
         font-weight: 500;
         font-size: 0.98rem;
-        padding: 0.6rem 0.9rem;
+        padding: 0.5rem 0.7rem; /* Reduced padding */
         margin: 0 0.1rem;
         color: #111827 !important;
         border-radius: 0.5rem;
@@ -593,13 +633,16 @@ $structuredData = $structuredData ?? generateStructuredData($pageTitle, $pageDes
             document.body.classList.remove('preload');
         });
     </script>
+    <?php if (isset($extraHeadContent)) echo $extraHeadContent; ?>
 </head>
 <body class="min-h-screen bg-transparent preload">
+    <!-- Global Atmospheric Weather Layer -->
+    <canvas id="hero-canvas" class="hero-canvas"></canvas>
 <script>
 // Theme switching functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Check for saved theme preference or use system preference
-    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const savedTheme = localStorage.getItem('theme') || 'light'; // Default to light
     document.documentElement.setAttribute('data-theme', savedTheme);
     
     // Update toggle state
@@ -615,6 +658,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             
+            // Custom Event mainly for the 3D Engine
+            const themeEvent = new CustomEvent('themeChanged', { detail: { theme: newTheme } });
+            window.dispatchEvent(themeEvent);
+
             // Update all toggles
             document.querySelectorAll('.theme-controller').forEach(t => t.checked = this.checked);
         });
@@ -644,21 +691,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Removing the listener attachment block is sufficient.
     
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                const headerHeight = document.querySelector('header#mainHeader').offsetHeight;
-                const targetPosition = target.offsetTop - headerHeight - 20;
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
+
 });
 
 // Google Analytics conversion tracking for phone calls

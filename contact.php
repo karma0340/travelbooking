@@ -192,10 +192,10 @@ include 'includes/header.php';
                     <div class="card-body p-4">
                         <h4 class="fw-bold mb-4">Follow Us</h4>
                         <div class="d-flex flex-wrap gap-2 social-links-container">
-                            <a href="#" class="btn btn-outline-primary rounded-pill social-icon-btn">
+                            <a href="https://www.facebook.com/travelinpeace605" class="btn btn-outline-primary rounded-pill social-icon-btn" target="_blank">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
-                            <a href="#" class="btn btn-outline-primary rounded-pill social-icon-btn">
+                            <a href="https://www.instagram.com/travelinpeace_/" class="btn btn-outline-primary rounded-pill social-icon-btn" target="_blank">
                                 <i class="fab fa-instagram"></i>
                             </a>
                             <a href="#" class="btn btn-outline-primary rounded-pill social-icon-btn">
@@ -319,9 +319,8 @@ include 'includes/header.php';
     </div>
 </section>
 
-<?php include 'includes/footer.php'; ?>
-
-<!-- Video Mask Script -->
+<?php
+$extraScripts = <<<EOT
 <script src="js/video-mask.js"></script>
 
 <style>
@@ -392,3 +391,6 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     }, 2000);
 });
 </script>
+EOT;
+include 'includes/footer.php';
+?>

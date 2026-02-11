@@ -2,13 +2,13 @@
 
 function initAnimations() {
     // Hero section text animations (now handled by AOS)
-    
+
     // Initialize GSAP ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
-    
+
     // Detect if device is mobile or touch device
     const isMobile = window.innerWidth <= 991 || 'ontouchstart' in window;
-    
+
     // Animate navbar on scroll with smoother settings
     gsap.to('.navbar', {
         scrollTrigger: {
@@ -21,7 +21,7 @@ function initAnimations() {
         boxShadow: "0 5px 10px rgba(0,0,0,0.1)",
         ease: "power2.out"
     });
-    
+
     // Parallax effect for tour card images - lighter effect on mobile
     gsap.utils.toArray('.tour-card .card-img-top').forEach(image => {
         gsap.to(image, {
@@ -35,16 +35,16 @@ function initAnimations() {
             }
         });
     });
-    
+
     // Animate statistics in hero section with responsive durations
     const counterElements = document.querySelectorAll('.hero-stats .fw-bold');
     counterElements.forEach(counter => {
         const target = parseInt(counter.textContent, 10);
         counter.textContent = '0';
-        gsap.to({val: 0}, {
+        gsap.to({ val: 0 }, {
             val: target,
             duration: isMobile ? 1.5 : 2,
-            onUpdate: function() {
+            onUpdate: function () {
                 counter.textContent = Math.round(this.targets()[0].val) + '+';
             },
             scrollTrigger: {
@@ -54,7 +54,7 @@ function initAnimations() {
             }
         });
     });
-    
+
     // Optimize timeline animations for better performance on mobile
     const timelineItems = document.querySelectorAll('.timeline-item');
     timelineItems.forEach((item, index) => {
@@ -71,7 +71,7 @@ function initAnimations() {
             ease: "power2.out"
         });
     });
-    
+
     // Infinite subtle float animation for CTA button - smoother on mobile
     gsap.to('.cta-card .book-btn', {
         y: isMobile ? -3 : -5,
@@ -80,7 +80,7 @@ function initAnimations() {
         yoyo: true,
         ease: "sine.inOut"
     });
-    
+
     // Animate testimonial cards on scroll with staggered timing
     const testimonialCards = document.querySelectorAll('.testimonial-carousel .card');
     testimonialCards.forEach((card, index) => {
@@ -97,7 +97,7 @@ function initAnimations() {
             ease: "power2.out"
         });
     });
-    
+
     // Optimize icon animations for better performance
     gsap.utils.toArray('.about-icon, .contact-icon').forEach(icon => {
         gsap.to(icon, {
@@ -113,10 +113,10 @@ function initAnimations() {
             }
         });
     });
-    
+
     // Make scroll animations responsive with IntersectionObserver
     const animateOnScroll = document.querySelectorAll('.animate-on-scroll');
-    
+
     if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -129,7 +129,7 @@ function initAnimations() {
             threshold: 0.15,
             rootMargin: '0px 0px -50px 0px'
         });
-        
+
         animateOnScroll.forEach(element => {
             observer.observe(element);
         });

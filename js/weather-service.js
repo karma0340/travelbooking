@@ -1,114 +1,171 @@
 /**
  * Weather Service using Open-Meteo API
- * Provides accurate weather data for Shimla
+ * Provides accurate weather data and handles user location detection
  */
 
 class WeatherService {
     constructor() {
-        // Shimla coordinates
-        this.latitude = 31.105;
-        this.longitude = 77.164;
-        this.apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${this.latitude}&longitude=${this.longitude}&current=precipitation,rain,showers,snowfall,temperature_2m,is_day,surface_pressure,weather_code,wind_speed_10m,relative_humidity_2m`;
-        this.location = 'Shimla';
-        
-        // Add 5-day forecast support
-        this.forecastApiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${this.latitude}&longitude=${this.longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto&forecast_days=5`;
+        console.log("Weather Service v2.0 - Loaded (BigDataCloud API)");
+        // No defaults to avoid showing wrong city during load
+        this.latitude = null;
+        this.longitude = null;
+        this.location = 'Detecting...';
+        this.isCustomLocation = false;
+    }
+
+    /**
+     * Attempts to get the user's current location via Geolocation API
+     */
+    async getUserLocation() {
+        return new Promise((resolve) => {
+            if (!navigator.geolocation) {
+                console.warn("Geolocation not supported.");
+                resolve(false);
+                return;
+            }
+
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 8000,
+                maximumAge: 0
+            };
+
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    this.latitude = position.coords.latitude;
+                    this.longitude = position.coords.longitude;
+                    this.isCustomLocation = true;
+
+                    try {
+                        // Use BigDataCloud API (Free, reliable, no Auth needed for client-side)
+                        const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${this.latitude}&longitude=${this.longitude}&localityLanguage=en`);
+                        if (response.ok) {
+                            const data = await response.json();
+                            this.location = data.locality || data.city || data.principalSubdivision || 'Your Location';
+                        }
+                    } catch (e) {
+                        // Silent fail
+                        this.location = 'Near You';
+                    }
+                    resolve(true);
+                },
+                (error) => {
+                    // Silent fail
+                    resolve(false);
+                },
+                options
+            );
+        });
+    }
+
+    /**
+     * Silent IP-based location fallback (Works instantly without prompts)
+     */
+    /**
+     * Silent IP-based location fallback (Works instantly without prompts)
+     * Uses multiple providers for redundancy, prioritizing HTTPS
+     */
+    async getIPLocation() {
+        // Provider 1: ipapi.co (HTTPS, Reliable)
+        try {
+            const response = await fetch('https://ipapi.co/json/');
+            if (response.ok) {
+                const data = await response.json();
+                if (data.latitude && data.longitude) {
+                    this.latitude = data.latitude;
+                    this.longitude = data.longitude;
+                    this.location = data.city || data.region;
+                    this.isCustomLocation = true;
+                    return true;
+                }
+            }
+        } catch (e) {
+            // Silent catch
+        }
+
+        // Provider 2: ip-api (HTTP fallback, might be blocked on HTTPS sites but okay for localhost)
+        if (window.location.protocol === 'http:') {
+            try {
+                const response = await fetch('http://ip-api.com/json/');
+                const data = await response.json();
+                if (data.status === 'success') {
+                    this.latitude = data.lat;
+                    this.longitude = data.lon;
+                    this.location = data.city || data.regionName;
+                    this.isCustomLocation = true;
+                    return true;
+                }
+            } catch (e) { }
+        }
+
+        return false;
     }
 
     async fetchWeather() {
         try {
-            console.log('Fetching weather data from Open-Meteo API...');
-            const response = await fetch(this.apiUrl);
-            
-            if (!response.ok) {
-                console.warn(`API Error: ${response.status}`);
-                return this.getFallbackWeather();
+            // Step 1: Silent IP Detection
+            if (!this.isCustomLocation) {
+                const found = await this.getIPLocation();
+                if (found && window.onWeatherUpdate) {
+                    this.performFetch().then(data => {
+                        if (window.onWeatherUpdate) window.onWeatherUpdate(data);
+                    }).catch(() => { });
+                }
             }
-            
-            const data = await response.json();
-            return this.processWeatherData(data);
+
+            // Step 2: High-Accuracy GPS Upgrade (Background)
+            this.getUserLocation().then(async success => {
+                if (success) {
+                    const freshData = await this.performFetch();
+                    if (window.onWeatherUpdate) window.onWeatherUpdate(freshData);
+                }
+            });
+
+            // If everything failed (e.g. localhost with no internet), use Shimla as last resort
+            if (!this.latitude || !this.longitude) {
+                this.latitude = 31.1048;
+                this.longitude = 77.1734;
+                this.location = 'Shimla';
+            }
+
+            return await this.performFetch();
         } catch (error) {
-            console.warn('Weather API error:', error);
+            // Silent fallback
             return this.getFallbackWeather();
-        }
-    }
-    
-    async fetchForecast() {
-        try {
-            const response = await fetch(this.forecastApiUrl);
-            
-            if (!response.ok) {
-                console.warn(`Forecast API Error: ${response.status}`);
-                return this.getFallbackForecast();
-            }
-            
-            const data = await response.json();
-            return this.processForecastData(data);
-        } catch (error) {
-            console.warn('Weather Forecast API error:', error);
-            return this.getFallbackForecast();
         }
     }
 
+    /**
+     * Internal fetch logic to avoid duplication
+     */
+    async performFetch() {
+        const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${this.latitude}&longitude=${this.longitude}&current=precipitation,rain,showers,snowfall,temperature_2m,is_day,surface_pressure,weather_code,wind_speed_10m,relative_humidity_2m`;
+        const response = await fetch(apiUrl);
+        if (!response.ok) return this.getFallbackWeather();
+        const data = await response.json();
+        return this.processWeatherData(data);
+    }
+
+
     processWeatherData(data) {
-        // Extract current weather data
         const { current } = data;
-        
-        if (!current) {
-            console.warn('No current weather data available');
-            return this.getFallbackWeather();
-        }
-        
+        if (!current) return this.getFallbackWeather();
+
         // Determine weather type based on WMO weather codes
-        // https://open-meteo.com/en/docs#weathervariables
         let type = 'clear';
-        
-        if (current.weather_code) {
+        if (current.weather_code !== undefined) {
             const code = current.weather_code;
-            
-            // Clear
-            if ([0, 1].includes(code)) {
-                type = 'clear';
-            }
-            // Cloudy
-            else if ([2, 3].includes(code) || (code >= 45 && code <= 48)) {
-                type = 'clouds';
-            }
-            // Rain
-            else if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code)) {
-                type = 'rain';
-            }
-            // Snow
-            else if ([71, 73, 75, 77, 85, 86].includes(code)) {
-                type = 'snow';
-            }
-            // Thunderstorm
-            else if ([95, 96, 99].includes(code)) {
-                type = 'thunderstorm';
-            }
-            // Fog, mist
-            else if ([4, 5, 6, 7, 8, 9, 10, 30, 31, 32, 33, 34, 49, 50].includes(code)) {
-                type = 'mist';
-            }
-        } else {
-            // Fallback weather type determination if code not available
-            if (current.snowfall > 0.1) {
-                type = 'snow';
-            } else if (current.rain > 0 || current.showers > 0) {
-                type = 'rain';
-            } else if (current.precipitation > 0) {
-                type = current.temperature_2m < 2 ? 'snow' : 'rain';
-            }
+            if ([0, 1].includes(code)) type = 'clear';
+            else if ([2, 3].includes(code) || (code >= 45 && code <= 48)) type = 'clouds';
+            else if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code)) type = 'rain';
+            else if ([71, 73, 75, 77, 85, 86].includes(code)) type = 'snow';
+            else if ([95, 96, 99].includes(code)) type = 'thunderstorm';
+            else if ([4, 5, 6, 7, 8, 9, 10, 30, 31, 32, 33, 34, 49, 50].includes(code)) type = 'mist';
         }
-        
-        // Format the observation time
+
         const now = new Date();
-        const observationTime = now.toLocaleTimeString([], { 
-            hour: '2-digit', 
-            minute: '2-digit',
-            hour12: true 
-        });
-        
+        const observationTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+
         return {
             location: this.location,
             temperature: Math.round(current.temperature_2m),
@@ -120,147 +177,22 @@ class WeatherService {
             pressure: `${Math.round(current.surface_pressure / 100)} hPa`
         };
     }
-    
-    processForecastData(data) {
-        if (!data.daily) {
-            return this.getFallbackForecast();
-        }
-        
-        const forecast = [];
-        const days = data.daily.time;
-        
-        for (let i = 0; i < days.length; i++) {
-            const weatherCode = data.daily.weather_code[i];
-            forecast.push({
-                date: days[i],
-                maxTemp: Math.round(data.daily.temperature_2m_max[i]),
-                minTemp: Math.round(data.daily.temperature_2m_min[i]),
-                precipitation: data.daily.precipitation_sum[i],
-                type: this.getWeatherTypeFromCode(weatherCode),
-                day: new Date(days[i]).toLocaleDateString('en-US', { weekday: 'short' })
-            });
-        }
-        
-        return forecast;
-    }
-    
-    getWeatherTypeFromCode(code) {
-        // Determine weather type based on WMO weather codes
-        // https://open-meteo.com/en/docs#weathervariables
-        let type = 'clear';
-        
-        // Clear
-        if ([0, 1].includes(code)) {
-            type = 'clear';
-        }
-        // Cloudy
-        else if ([2, 3].includes(code) || (code >= 45 && code <= 48)) {
-            type = 'clouds';
-        }
-        // Rain
-        else if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code)) {
-            type = 'rain';
-        }
-        // Snow
-        else if ([71, 73, 75, 77, 85, 86].includes(code)) {
-            type = 'snow';
-        }
-        // Thunderstorm
-        else if ([95, 96, 99].includes(code)) {
-            type = 'thunderstorm';
-        }
-        // Fog, mist
-        else if ([4, 5, 6, 7, 8, 9, 10, 30, 31, 32, 33, 34, 49, 50].includes(code)) {
-            type = 'mist';
-        }
-        
-        return type;
-    }
 
     getFallbackWeather() {
-        // Use fallback data when API fails
-        console.log('Using fallback weather data');
         const now = new Date();
         const hour = now.getHours();
         const isDay = hour >= 6 && hour < 18;
-        
-        // Generate somewhat realistic temperature based on time of day
-        let temperature = 22; // Base temperature
-        if (isDay) {
-            temperature += Math.floor((hour - 6) / 2); // Temperature rises during day
-        } else {
-            temperature -= Math.floor((hour < 6 ? hour + 6 : hour - 18) / 2); // Drops at night
-        }
-        
-        // For Shimla, adjust based on season
-        const month = now.getMonth(); // 0-11
-        
-        // Winter months (Nov-Feb)
-        if (month >= 10 || month <= 1) {
-            temperature -= 15;
-        }
-        // Spring/Fall (Mar-Apr, Sep-Oct)
-        else if (month >= 2 && month <= 3 || month >= 8 && month <= 9) {
-            temperature -= 5;
-        }
-        // Summer months (May-Aug)
-        else {
-            temperature += 0; // Keep base temperature
-        }
-        
-        // Randomly pick a weather type, weighted towards clear weather in this region
-        const weatherTypes = ['clear', 'clear', 'clear', 'clouds', 'clouds', 'rain', 'mist'];
-        // Add snow only in winter months
-        if (month >= 10 || month <= 2) {
-            weatherTypes.push('snow');
-        }
-        // Add thunderstorms in monsoon season (June-September)
-        if (month >= 5 && month <= 8) {
-            weatherTypes.push('thunderstorm', 'rain', 'rain');
-        }
-        
-        const randomType = weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
-        
-        const observationTime = now.toLocaleTimeString([], { 
-            hour: '2-digit', 
-            minute: '2-digit',
-            hour12: true 
-        });
-        
         return {
-            location: 'Shimla',
-            temperature: temperature,
-            humidity: '65%',
-            windSpeed: Math.floor(Math.random() * 15) + 5,
-            observationTime: observationTime,
-            type: randomType,
+            location: this.location || 'Shimla',
+            temperature: 18,
+            humidity: '60%',
+            windSpeed: 5,
+            observationTime: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
+            type: 'clear',
             isDay: isDay,
             pressure: '1013 hPa'
         };
     }
-    
-    getFallbackForecast() {
-        // Generate fallback forecast data
-        const forecast = [];
-        const now = new Date();
-        
-        for (let i = 0; i < 5; i++) {
-            const date = new Date(now);
-            date.setDate(date.getDate() + i);
-            
-            forecast.push({
-                date: date.toISOString().split('T')[0],
-                maxTemp: Math.round(18 + Math.random() * 5),
-                minTemp: Math.round(10 + Math.random() * 5),
-                precipitation: Math.random() * 5,
-                type: ['clear', 'clouds', 'rain'][Math.floor(Math.random() * 3)],
-                day: date.toLocaleDateString('en-US', { weekday: 'short' })
-            });
-        }
-        
-        return forecast;
-    }
 }
 
-// Export the WeatherService
 window.WeatherService = WeatherService;
