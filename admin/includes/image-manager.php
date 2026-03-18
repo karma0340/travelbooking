@@ -324,6 +324,19 @@ const ImageManager = {
                 </div>
             </div>
         `).join('');
+
+        // Sync primary image to external input (if exists in parent form)
+        const primaryImg = images.find(img => img.is_primary) || images[0];
+        const externalImageInput = document.getElementById('image');
+        if (externalImageInput) {
+            if (primaryImg) {
+                externalImageInput.value = primaryImg.image_url;
+            } else if (images.length === 0) {
+                // DON'T clear it automatically as it might be a manual URL the user entered
+                // but if we want strictly gallery-based, we'd clear it.
+                // Leave it for now.
+            }
+        }
     },
     
     async deleteImage(imageId) {

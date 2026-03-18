@@ -125,6 +125,73 @@
     </div>
 </section>
 
+<!-- Popular Taxi Routes Section (SEO GOLD) -->
+<section id="popular-routes" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="text-primary fw-bold text-uppercase letter-spacing-1">Ranked #1 for Local Cabs</span>
+            <h2 class="display-5 fw-bold">Popular Taxi Routes & Tour Packages</h2>
+            <p class="text-muted mx-auto" style="max-width: 700px;">We offer the best deals for outstation cab booking and all-inclusive tour packages from Chandigarh and Delhi.</p>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Route 1: Chandigarh to Manali -->
+            <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+                <div class="card h-100 border-0 shadow-sm hover-lift route-card overflow-hidden">
+                    <div class="route-header p-4 bg-primary text-white text-center">
+                        <h3 class="h4 fw-bold mb-0">Chandigarh to Manali</h3>
+                        <span class="small opacity-75">All-Inclusive Tour Package</span>
+                    </div>
+                    <div class="card-body p-4">
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Chandigarh to Manali Cab Fare</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Best Manali Tour Package</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Chandigarh to Manali One Way Taxi</li>
+                        </ul>
+                        <a href="book.php?tour=chandigarh-manali-tour-package" class="btn btn-outline-primary w-100 rounded-pill">View Package Price</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Route 2: Delhi to Shimla -->
+            <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm hover-lift route-card overflow-hidden">
+                    <div class="route-header p-4 bg-dark text-white text-center">
+                        <h3 class="h4 fw-bold mb-0">Delhi to Shimla</h3>
+                        <span class="small opacity-75">Instant Cab Booking</span>
+                    </div>
+                    <div class="card-body p-4">
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Delhi to Shimla Taxi Booking</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Shimla Trip from Delhi</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Affordable Outstation Taxi</li>
+                        </ul>
+                        <a href="book.php?tour=delhi-shimla-taxi" class="btn btn-outline-dark w-100 rounded-pill">Check Cab Fare</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Route 3: Chandigarh to Shimla -->
+            <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="300">
+                <div class="card h-100 border-0 shadow-sm hover-lift route-card overflow-hidden">
+                    <div class="route-header p-4 bg-info text-white text-center">
+                        <h3 class="h4 fw-bold mb-0">Chandigarh to Shimla</h3>
+                        <span class="small opacity-75">Sightseeing & One Way Cabs</span>
+                    </div>
+                    <div class="card-body p-4">
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> One Way Taxi Chandigarh to Shimla</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Shimla Tour from Chandigarh</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Chandigarh to Shimla Cab Booking</li>
+                        </ul>
+                        <a href="book.php?tour=chandigarh-shimla-taxi" class="btn btn-outline-info w-100 rounded-pill">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Places to Visit Section -->
 <section id="places" class="py-5">
     <div class="container">
@@ -212,8 +279,10 @@
                 $placeKeyMap = array_keys($defaultPlaceImages);
                 
                 foreach ($places as $place): 
-                    // Allow both local paths and URLs
-                    $imageUrl = !empty($place['image']) ? $place['image'] : $defaultPlaceImages[$placeKeyMap[$i % count($placeKeyMap)]];
+                    // Get uploaded image or use fallback
+                    $imageUrl = isset($place['id']) && $place['id'] < 100 // IDs < 100 are real tours from DB
+                        ? getPrimaryImage('tour', $place['id'], !empty($place['image']) ? $place['image'] : $defaultPlaceImages[$placeKeyMap[$i % count($placeKeyMap)]])
+                        : (!empty($place['image']) ? $place['image'] : $defaultPlaceImages[$placeKeyMap[$i % count($placeKeyMap)]]);
                     $i++;
                 ?>
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="<?php echo ($i % 3) * 100; ?>">

@@ -42,14 +42,14 @@
                 </div>
                 
                 <div class="col-lg-3 col-md-6 mb-4">
-                    <h5 class="text-white mb-4">Newsletter</h5>
-                    <p class="text-light-50">Subscribe to get updates on new tours and offers</p>
-                    <form class="newsletter-form">
-                        <div class="input-group">
-                            <input type="email" class="form-control" placeholder="Your email">
-                            <button class="btn btn-primary">Subscribe</button>
-                        </div>
-                    </form>
+                    <h5 class="text-white mb-4">Popular Taxi Routes</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="book.php?tour=chandigarh-to-manali-tour-package">Chandigarh to Manali Taxi</a></li>
+                        <li><a href="book.php?tour=delhi-to-shimla-taxi">Delhi to Shimla Cab Booking</a></li>
+                        <li><a href="book.php?tour=ludhiana-to-manali-taxi">Ludhiana to Manali Packages</a></li>
+                        <li><a href="book.php?tour=chandigarh-to-shimla-taxi">Chandigarh to Shimla Cab</a></li>
+                        <li><a href="vehicles.php">Outstation Taxi Punjab</a></li>
+                    </ul>
                 </div>
             </div>
             

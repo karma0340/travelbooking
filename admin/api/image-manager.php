@@ -117,6 +117,9 @@ function handleImageUpload() {
             'stats' => $stats,
             'sizes' => array_keys($result['images'])
         ]);
+        
+        // Sync to main table
+        syncPrimaryImageToMainTable($entityType, $entityId);
     } else {
         // Delete uploaded files if database insert fails
         $optimizer->deleteImage($imageUrl);
@@ -158,6 +161,9 @@ function handleImageUrl() {
             'image_id' => $conn->insert_id,
             'image_url' => $imageUrl
         ]);
+        
+        // Sync to main table
+        syncPrimaryImageToMainTable($entityType, $entityId);
     } else {
         echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
     }
@@ -176,8 +182,8 @@ function handleImageDelete() {
     
     $conn = getDbConnection();
     
-    // Get image info before deleting
-    $stmt = $conn->prepare("SELECT image_url, image_type FROM entity_images WHERE id = ?");
+    // Get image info before deleting (need it for physical file and sync)
+    $stmt = $conn->prepare("SELECT entity_type, entity_id, image_url, image_type FROM entity_images WHERE id = ?");
     $stmt->bind_param("i", $imageId);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -190,6 +196,9 @@ function handleImageDelete() {
         return;
     }
     
+    $entityType = $image['entity_type'];
+    $entityId = $image['entity_id'];
+    
     // Delete from database
     $stmt = $conn->prepare("DELETE FROM entity_images WHERE id = ?");
     $stmt->bind_param("i", $imageId);
@@ -201,6 +210,9 @@ function handleImageDelete() {
         }
         
         echo json_encode(['success' => true, 'message' => 'Image deleted successfully']);
+        
+        // Sync to main table (it will pick the next primary or first image)
+        syncPrimaryImageToMainTable($entityType, $entityId);
     } else {
         echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
     }
@@ -266,6 +278,9 @@ function handleSetPrimary() {
         
         $conn->commit();
         echo json_encode(['success' => true, 'message' => 'Primary image set successfully']);
+        
+        // Sync to main table
+        syncPrimaryImageToMainTable($entityType, $entityId);
     } catch (Exception $e) {
         $conn->rollback();
         echo json_encode(['success' => false, 'message' => 'Error setting primary image: ' . $e->getMessage()]);
@@ -298,6 +313,52 @@ function handleGetImages() {
     echo json_encode(['success' => true, 'images' => $images]);
     
     $stmt->close();
+    $conn->close();
+}
+
+/**
+ * Sync the primary image from entity_images to the main entity table's 'image' column
+ */
+function syncPrimaryImageToMainTable($entityType, $entityId) {
+    // Open a new connection as previous ones might be closed
+    $conn = getDbConnection();
+    
+    // 1. Try to get the primary image
+    $stmt = $conn->prepare("SELECT image_url FROM entity_images WHERE entity_type = ? AND entity_id = ? AND is_primary = 1 LIMIT 1");
+    $stmt->bind_param("si", $entityType, $entityId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $image = $result->fetch_assoc();
+    $stmt->close();
+    
+    // 2. If no primary, get the first image by order
+    if (!$image) {
+        $stmt = $conn->prepare("SELECT image_url FROM entity_images WHERE entity_type = ? AND entity_id = ? ORDER BY display_order ASC LIMIT 1");
+        $stmt->bind_param("si", $entityType, $entityId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $image = $result->fetch_assoc();
+        $stmt->close();
+    }
+    
+    $imageUrl = $image ? $image['image_url'] : '';
+    
+    // 3. Update the main table
+    $tableMap = [
+        'tour' => 'tours',
+        'vehicle' => 'vehicles',
+        'category' => 'tour_categories'
+    ];
+    
+    if (isset($tableMap[$entityType])) {
+        $table = $tableMap[$entityType];
+        $sql = "UPDATE `$table` SET `image` = ? WHERE `id` = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $imageUrl, $entityId);
+        $stmt->execute();
+        $stmt->close();
+    }
+    
     $conn->close();
 }
 ?>

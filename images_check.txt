@@ -1,0 +1,73 @@
+﻿Total rows in entity_images: 6
+Array
+(
+    [id] => 2
+    [entity_type] => category
+    [entity_id] => 2
+    [image_url] => uploads/images/69766dfa2ec5c_1769369082_large.webp
+    [image_type] => upload
+    [image_metadata] => {"sizes":{"thumbnail":{"path":"uploads\/images\/69766dfa2ec5c_1769369082_thumbnail.webp","width":300,"height":300,"size":19028,"format":"webp"},"medium":{"path":"uploads\/images\/69766dfa2ec5c_1769369082_medium.webp","width":600,"height":600,"size":53816,"format":"webp"},"large":{"path":"uploads\/images\/69766dfa2ec5c_1769369082_large.webp","width":900,"height":900,"size":95546,"format":"webp"},"original":{"path":"uploads\/images\/69766dfa2ec5c_1769369082_original.webp","width":1024,"height":1024,"size":142994,"format":"webp"}},"compression":{"original_size":"389.46 KB","compressed_size":"93.31 KB","saved":"296.15 KB","saved_percent":"76%"}}
+    [display_order] => 1
+    [is_primary] => 0
+    [created_at] => 2026-01-26 00:54:43
+)
+Array
+(
+    [id] => 3
+    [entity_type] => category
+    [entity_id] => 3
+    [image_url] => uploads/images/69766f5ebd4f5_1769369438_large.webp
+    [image_type] => upload
+    [image_metadata] => {"sizes":{"thumbnail":{"path":"uploads\/images\/69766f5ebd4f5_1769369438_thumbnail.webp","width":300,"height":300,"size":23536,"format":"webp"},"medium":{"path":"uploads\/images\/69766f5ebd4f5_1769369438_medium.webp","width":600,"height":600,"size":68276,"format":"webp"},"large":{"path":"uploads\/images\/69766f5ebd4f5_1769369438_large.webp","width":900,"height":900,"size":118620,"format":"webp"},"original":{"path":"uploads\/images\/69766f5ebd4f5_1769369438_original.webp","width":1024,"height":1024,"size":173228,"format":"webp"}},"compression":{"original_size":"425.67 KB","compressed_size":"115.84 KB","saved":"309.83 KB","saved_percent":"72.8%"}}
+    [display_order] => 1
+    [is_primary] => 0
+    [created_at] => 2026-01-26 01:00:40
+)
+Array
+(
+    [id] => 4
+    [entity_type] => category
+    [entity_id] => 4
+    [image_url] => uploads/images/69766f918a3c9_1769369489_large.webp
+    [image_type] => upload
+    [image_metadata] => {"sizes":{"thumbnail":{"path":"uploads\/images\/69766f918a3c9_1769369489_thumbnail.webp","width":300,"height":300,"size":23392,"format":"webp"},"medium":{"path":"uploads\/images\/69766f918a3c9_1769369489_medium.webp","width":600,"height":600,"size":77678,"format":"webp"},"large":{"path":"uploads\/images\/69766f918a3c9_1769369489_large.webp","width":900,"height":900,"size":143674,"format":"webp"},"original":{"path":"uploads\/images\/69766f918a3c9_1769369489_original.webp","width":1024,"height":1024,"size":206994,"format":"webp"}},"compression":{"original_size":"461.07 KB","compressed_size":"140.31 KB","saved":"320.76 KB","saved_percent":"69.6%"}}
+    [display_order] => 1
+    [is_primary] => 0
+    [created_at] => 2026-01-26 01:01:30
+)
+Array
+(
+    [id] => 5
+    [entity_type] => category
+    [entity_id] => 5
+    [image_url] => uploads/images/69766fb5669a6_1769369525_large.webp
+    [image_type] => upload
+    [image_metadata] => {"sizes":{"thumbnail":{"path":"uploads\/images\/69766fb5669a6_1769369525_thumbnail.webp","width":300,"height":300,"size":21204,"format":"webp"},"medium":{"path":"uploads\/images\/69766fb5669a6_1769369525_medium.webp","width":600,"height":600,"size":73548,"format":"webp"},"large":{"path":"uploads\/images\/69766fb5669a6_1769369525_large.webp","width":900,"height":900,"size":142184,"format":"webp"},"original":{"path":"uploads\/images\/69766fb5669a6_1769369525_original.webp","width":1024,"height":1024,"size":227442,"format":"webp"}},"compression":{"original_size":"489.85 KB","compressed_size":"138.85 KB","saved":"351 KB","saved_percent":"71.7%"}}
+    [display_order] => 1
+    [is_primary] => 0
+    [created_at] => 2026-01-26 01:02:06
+)
+Array
+(
+    [id] => 6
+    [entity_type] => category
+    [entity_id] => 6
+    [image_url] => uploads/images/69766fd394178_1769369555_large.webp
+    [image_type] => upload
+    [image_metadata] => {"sizes":{"thumbnail":{"path":"uploads\/images\/69766fd394178_1769369555_thumbnail.webp","width":300,"height":300,"size":25054,"format":"webp"},"medium":{"path":"uploads\/images\/69766fd394178_1769369555_medium.webp","width":600,"height":600,"size":85680,"format":"webp"},"large":{"path":"uploads\/images\/69766fd394178_1769369555_large.webp","width":900,"height":900,"size":162614,"format":"webp"},"original":{"path":"uploads\/images\/69766fd394178_1769369555_original.webp","width":1024,"height":1024,"size":248080,"format":"webp"}},"compression":{"original_size":"511.98 KB","compressed_size":"158.8 KB","saved":"353.18 KB","saved_percent":"69%"}}
+    [display_order] => 1
+    [is_primary] => 0
+    [created_at] => 2026-01-26 01:02:37
+)
+Array
+(
+    [id] => 7
+    [entity_type] => category
+    [entity_id] => 1
+    [image_url] => uploads/images/69769161b0331_1769378145_large.webp
+    [image_type] => upload
+    [image_metadata] => {"sizes":{"thumbnail":{"path":"uploads\/images\/69769161b0331_1769378145_thumbnail.webp","width":300,"height":300,"size":16112,"format":"webp"},"medium":{"path":"uploads\/images\/69769161b0331_1769378145_medium.webp","width":600,"height":600,"size":50176,"format":"webp"},"large":{"path":"uploads\/images\/69769161b0331_1769378145_large.webp","width":900,"height":900,"size":88312,"format":"webp"},"original":{"path":"uploads\/images\/69769161b0331_1769378145_original.webp","width":1024,"height":1024,"size":143648,"format":"webp"}},"compression":{"original_size":"383.46 KB","compressed_size":"86.24 KB","saved":"297.22 KB","saved_percent":"77.5%"}}
+    [display_order] => 2
+    [is_primary] => 0
+    [created_at] => 2026-01-26 03:25:47
+)

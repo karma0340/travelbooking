@@ -29,11 +29,25 @@ function generateSEODescription($content, $maxLength = 160) {
  */
 function generateSEOKeywords($content) {
     $keywords = [
-        'travel in peace', 'himachal pradesh tour packages 2024', 'best himachal tour packages 2025', 
-        'taxi service shimla', 'shimla taxi booking', 'cab service shimla', 'taxi near me shimla',
+        // Primary High-Volume
+        'travel in peace', 'taxi service', 'cab booking', 'taxi booking online', 'book taxi online', 
+        'online cab booking', 'taxi near me', 'cab near me', 'local taxi service',
+        
+        // High-Intent / Money Keywords
+        'book taxi now', 'instant cab booking', 'affordable taxi service', 'cheap cab booking',
+        'best taxi service near me', '24 hour taxi service', 'taxi booking app', 'hire taxi near me',
+        
+        // Himachal / Route Specific (Ranking Gold)
+        'best himachal tour packages 2025', 'shimla taxi service', 'manali tour package from chandigarh',
+        'chandigarh to manali tour package', 'chandigarh to manali taxi package', 'chandigarh to manali cab fare',
+        'delhi to manali tour package', 'delhi to manali taxi booking', 'chandigarh to shimla taxi',
+        'one way taxi chandigarh to shimla', 'himachal tour package by cab', 'shimla manali taxi package',
+        
+        // Legacy/Generic
+        'shimla taxi booking', 'cab service shimla', 'taxi near me shimla',
         'shimla to chandigarh taxi', 'shimla to manali taxi', 'outstation taxi shimla',
         'local taxi shimla', 'airport taxi shimla', 'shimla airport transfer',
-        'shimla manali tour package', 'spiti valley tour package', 'dharamshala tour packages',
+        'spiti valley tour package', 'dharamshala tour packages',
         'dalhousie tour package', 'kinnaur spiti tour', 'himachal honeymoon packages',
         'himachal family packages', 'trekking in himachal pradesh', 'adventure tourism himachal',
         'car rental shimla', 'luxury car hire shimla', 'innova rental shimla',
@@ -47,13 +61,14 @@ function generateSEOKeywords($content) {
         $additionalKeywords = [];
         
         // Extract potential keywords from content
-        $locations = ['shimla', 'manali', 'dharamshala', 'kullu', 'spiti', 'kinnaur', 'lahaul', 'dalhousie', 'kasauli'];
+        $locations = ['shimla', 'manali', 'dharamshala', 'kullu', 'spiti', 'kinnaur', 'lahaul', 'dalhousie', 'kasauli', 'chandigarh', 'delhi', 'punjab', 'ludhiana'];
         foreach ($locations as $location) {
             if (strpos($content, $location) !== false) {
                 $additionalKeywords[] = $location . ' tour packages 2025';
                 $additionalKeywords[] = $location . ' taxi service';
                 $additionalKeywords[] = 'best travel agency in ' . $location;
                 $additionalKeywords[] = 'taxi near me in ' . $location;
+                $additionalKeywords[] = 'cab booking in ' . $location;
             }
         }
         
@@ -84,16 +99,9 @@ function generateStructuredData($pageTitle, $pageDescription, $currentPage = '')
         "email" => "travelinpeace605@gmail.com",
         "address" => [
             "@type" => "PostalAddress",
-            "streetAddress" => "Shimla", // Add specific street address if available
             "addressLocality" => "Shimla",
             "addressRegion" => "Himachal Pradesh",
-            "postalCode" => "171001",
             "addressCountry" => "IN"
-        ],
-        "geo" => [
-            "@type" => "GeoCoordinates",
-            "latitude" => "31.1048",
-            "longitude" => "77.1734"
         ],
         "areaServed" => [
             "Shimla",
@@ -101,7 +109,39 @@ function generateStructuredData($pageTitle, $pageDescription, $currentPage = '')
             "Dharamshala",
             "Dalhousie",
             "Spiti Valley",
-            "Kinnaur"
+            "Kinnaur",
+            "Chandigarh",
+            "Delhi",
+            "Punjab",
+            "Ludhiana",
+            "Kullu"
+        ],
+        "hasOfferCatalog" => [
+            "@type" => "OfferCatalog",
+            "name" => "Taxi & Tour Services",
+            "itemListElement" => [
+                [
+                    "@type" => "Offer",
+                    "itemOffered" => [
+                        "@type" => "Service",
+                        "name" => "Chandigarh to Manali Tour Package"
+                    ]
+                ],
+                [
+                    "@type" => "Offer",
+                    "itemOffered" => [
+                        "@type" => "Service",
+                        "name" => "Shimla Local Taxi Service"
+                    ]
+                ],
+                [
+                    "@type" => "Offer",
+                    "itemOffered" => [
+                        "@type" => "Service",
+                        "name" => "Outstation Cab Booking"
+                    ]
+                ]
+            ]
         ],
         "sameAs" => [
             "https://www.instagram.com/travelinpeace_/",

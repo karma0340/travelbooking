@@ -19,9 +19,9 @@ require_once 'includes/security.php';
 require_once 'includes/seo-helper.php';
 
 // SEO Optimization
-$pageTitle = "Vehicles - Travel In Peace | Himachal Taxi & Car Rental";
-$pageDescription = "Browse our fleet of well-maintained vehicles for comfortable travel across Himachal Pradesh.";
-$pageKeywords = generateSEOKeywords("taxi service near me, shimla taxi booking, car rental in shimla with driver, innova crysta rental shimla, tempo traveller hire shimla, shimla to chandigarh taxi rates, local taxi shimla, affordable cab service himachal");
+$pageTitle = "Innova Rental & Tempo Traveller Hire Shimla | Travel In Peace";
+$pageDescription = "Book luxury Innova Crysta, Tempo Traveller, and Sedan car rentals in Shimla with professional drivers. Affordable outstation taxi and local sightseeing cab booking.";
+$pageKeywords = generateSEOKeywords("innova rental shimla, tempo traveller hire shimla, sedan booking online, best car rental with driver, innova crysta taxi service, shimla to manali innova fare, outstation cab hire punjab");
 
 // Set security headers
 try {
@@ -106,10 +106,10 @@ include 'includes/header.php';
                 <?php 
                 $i = 0;
                 foreach ($vehicles as $vehicle): 
-                    // Get image from vehicle or use placeholder
-                    $imageUrl = !empty($vehicle['image']) && filter_var($vehicle['image'], FILTER_VALIDATE_URL) 
-                        ? $vehicle['image'] 
-                        : 'images/placeholder/vehicle-placeholder.jpg';
+                    // Get uploaded image or use fallback
+                    $imageUrl = isset($vehicle['id']) 
+                        ? getPrimaryImage('vehicle', $vehicle['id'], !empty($vehicle['image']) && filter_var($vehicle['image'], FILTER_VALIDATE_URL) ? $vehicle['image'] : 'images/placeholder/vehicle-placeholder.jpg')
+                        : (!empty($vehicle['image']) && filter_var($vehicle['image'], FILTER_VALIDATE_URL) ? $vehicle['image'] : 'images/placeholder/vehicle-placeholder.jpg');
                     $i++;
                 ?>
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="<?php echo ($i % 3) * 100; ?>">

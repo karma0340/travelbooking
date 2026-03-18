@@ -84,22 +84,22 @@ include 'includes/header.php';
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-9 text-center">
                 <div data-aos="fade-up" data-aos-duration="1200">
-                    <!-- Main Heading -->
-                    <h1 class="hero-title">Discover Himachal's Magic</h1>
-                    <h2 class="hero-subtitle">with Travel In Peace</h2>
+                    <!-- Main Heading optimized for SEO -->
+                    <h1 class="hero-title">Best Taxi Service in Shimla</h1>
+                    <h2 class="hero-subtitle">Premium Cab Booking & Tour Packages</h2>
                     
-                    <!-- Description -->
+                    <!-- Description with keywords -->
                     <p class="lead mb-5">
-                        Experience breathtaking views and unforgettable journeys through the magnificent landscapes of Himalayan foothills
+                        Experience breathtaking Himachal trips with our 24/7 reliable taxi service. Specializing in Chandigarh to Manali, Shimla, and Spiti Valley tour packages.
                     </p>
                     
                     <!-- Buttons -->
                     <div class="d-flex justify-content-center gap-3 flex-wrap mb-5">
                         <a href="#contact" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg hover-lift">
-                            <span>Plan Now</span>
+                            <span>Book Taxi Now</span>
                         </a>
                         <a href="#categories" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill hover-lift">
-                            Explore<i class="fas fa-arrow-right ms-2"></i>
+                            Explore Tours<i class="fas fa-arrow-right ms-2"></i>
                         </a>
                     </div>
                     

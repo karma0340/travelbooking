@@ -1,0 +1,6 @@
+﻿--- TOURS GAPS ---
+ID: 1 | Title: Shimla & Manali Explorer | Image: https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=800
+ID: 2 | Title: Spiti Valley Adventure | Image: https://images.pexels.com/photos/1574843/pexels-photo-1574843.jpeg?auto=compress&cs=tinysrgb&w=800
+ID: 3 | Title: Romantic Dalhousie & Khajjiar | Image: https://images.pexels.com/photos/1024960/pexels-photo-1024960.jpeg?auto=compress&cs=tinysrgb&w=800
+ID: 4 | Title: Dharamshala & Mcleodganj Spiritual Tour | Image: https://images.pexels.com/photos/3408354/pexels-photo-3408354.jpeg?auto=compress&cs=tinysrgb&w=800
+ID: 5 | Title: Kasol & Kheerganga Trek | Image: https://images.pexels.com/photos/1365425/pexels-photo-1365425.jpeg?auto=compress&cs=tinysrgb&w=800
